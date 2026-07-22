@@ -14,7 +14,7 @@ export default function HomePage() {
         </h1>
         <div className="rule-gold mx-auto mt-8" />
         <p className="text-muted mx-auto mt-8 max-w-md text-lg">
-          The design system is ready. The homepage is next.
+          The design system is ready.
         </p>
         <Link href="/styleguide" className="btn btn-secondary mt-10">
           View Design System
