@@ -412,44 +412,6 @@ textarea.field {
 }
 
 /* ============================================================
-   LOGO HANDLING
-   ------------------------------------------------------------
-   The supplied logo is a full lockup whose bottom third is
-   light-grey service text — invisible on black. These wrappers
-   crop to the usable portion until the client supplies proper
-   variants. See CLIENT_BRIEF.md §15.
-   ============================================================ */
-
-/* Roundel + EXOTIC TRAVEL wordmark, clipping the grey strip */
-.logo-crop {
-  overflow: hidden;
-  position: relative;
-}
-
-.logo-crop img {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* Bottom ~26% is the unusable grey services strip */
-  margin-bottom: -26%;
-}
-
-/* ET roundel only — for the header and favicon */
-.logo-mark {
-  overflow: hidden;
-  position: relative;
-  aspect-ratio: 1;
-}
-
-.logo-mark img {
-  position: absolute;
-  width: 178%;
-  max-width: none;
-  left: -39%;
-  top: -4%;
-}
-
-/* ============================================================
    ENTRANCE MOTION
    "Smooth animations rather than lots of colours" — restrained
    fade + rise, one curve, revealed on scroll.

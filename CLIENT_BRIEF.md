@@ -261,7 +261,13 @@ restrained and smooth — fades, slow reveals, gentle parallax — not bouncy or
 
 ## 15. Brand Assets (already in `public/`)
 
-- `logo.svg` — client logo (gold "EF" monogram + EXOTIC TRAVEL wordmark).
+- `logo.svg` — the brand emblem: gold **ET monogram inside a Greek-key roundel**, on
+  transparent background. Huzaifa deliberately cropped the original client artwork down to
+  just this roundel (via the SVG viewBox/transform) — the original also had an "EXOTIC TRAVEL"
+  wordmark and a services strip, which were intentionally removed as clutter. **The roundel is
+  the final, intended logo** — do not reinstate the wordmark/services. Renders correctly as-is;
+  use `/logo.svg` directly (no CSS cropping). Minor future optimisation only: the file is a
+  ~424KB PNG embedded in an SVG wrapper, so a lighter exported asset could be produced later.
 
 **Photography** — 6 client-supplied images, mostly AI-generated, all consistent with the
 black + gold art direction (black Mercedes fleet, suited chauffeur, luxury London locations):
