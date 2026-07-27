@@ -61,70 +61,84 @@ const STAR =
 
 export function MarkerWave({ className = "" }: { className?: string }) {
   return (
-    <div aria-hidden className={`pointer-events-none relative ${className}`}>
-      <svg
-        viewBox="0 0 60 1000"
-        /* Stretched to the height it is given rather than scaled to fit,
-           so the stroke always runs the full length of the form however
-           long the form happens to be. `non-scaling-stroke` on the paths
-           is what makes that safe: the geometry stretches, the width of
-           the mark does not, so a tall form does not get a fatter pen. */
-        preserveAspectRatio="none"
-        fill="none"
-        className="h-full w-full drop-shadow-[0_0_6px_rgba(201,169,97,0.28)]"
-      >
-        <defs>
-          {/* Rendered once per page, so a fixed id is safe — and two of
-              them would reference an identical gradient anyway. */}
-          <linearGradient id="marker-wave" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-gold-deep)" stopOpacity="0" />
-            <stop offset="6%" stopColor="var(--color-gold)" stopOpacity="0.55" />
-            <stop offset="22%" stopColor="var(--color-gold-bright)" stopOpacity="0.95" />
-            <stop offset="42%" stopColor="var(--color-gold)" stopOpacity="0.75" />
-            <stop offset="60%" stopColor="var(--color-gold-bright)" stopOpacity="0.9" />
-            <stop offset="80%" stopColor="var(--color-gold)" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="var(--color-gold-deep)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        <path
-          d={STROKE}
-          stroke="url(#marker-wave)"
-          strokeWidth={1.75}
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-        />
-        <path
-          d={STROKE_SECOND}
-          stroke="url(#marker-wave)"
-          strokeWidth={0.9}
-          strokeLinecap="round"
-          opacity={0.45}
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-
-      {GLINTS.map((g) => (
-        <span
-          key={`${g.top}-${g.left}`}
-          className="glint text-gold absolute block"
-          style={{
-            top: `${g.top}%`,
-            left: `${g.left}%`,
-            width: g.size,
-            height: g.size,
-            animationDelay: `${g.delay}ms`,
-          }}
+    // Two elements, and the split is load-bearing. The specks need a
+    // positioned ancestor to sit on, but putting `relative` on the root
+    // would fight whatever position the caller passes in — and lose
+    // silently, because Tailwind emits `.relative` after `.absolute`, so
+    // the class order in the attribute counts for nothing and the root
+    // stays relative. The inner wrapper owns the containing block; the
+    // root owns nothing but what it was handed.
+    <div aria-hidden className={`pointer-events-none ${className}`}>
+      <div className="relative h-full w-full">
+        <svg
+          viewBox="0 0 60 1000"
+          /* Stretched to the height it is given rather than scaled to
+             fit, so the stroke always runs the full length of the form
+             however long the form happens to be. `non-scaling-stroke` on
+             the paths is what makes that safe: the geometry stretches,
+             the width of the mark does not, so a tall form does not get
+             a fatter pen. */
+          preserveAspectRatio="none"
+          fill="none"
+          className="h-full w-full drop-shadow-[0_0_6px_rgba(201,169,97,0.28)]"
         >
-          {g.star ? (
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
-              <path d={STAR} />
-            </svg>
-          ) : (
-            <span className="bg-gold block h-full w-full rounded-full" />
-          )}
-        </span>
-      ))}
+          <defs>
+            {/* Rendered once per page, so a fixed id is safe — and two of
+                them would reference an identical gradient anyway. */}
+            <linearGradient id="marker-wave" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--color-gold-deep)" stopOpacity="0" />
+              <stop offset="6%" stopColor="var(--color-gold)" stopOpacity="0.55" />
+              <stop offset="22%" stopColor="var(--color-gold-bright)" stopOpacity="0.95" />
+              <stop offset="42%" stopColor="var(--color-gold)" stopOpacity="0.75" />
+              <stop offset="60%" stopColor="var(--color-gold-bright)" stopOpacity="0.9" />
+              <stop offset="80%" stopColor="var(--color-gold)" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="var(--color-gold-deep)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          <path
+            d={STROKE}
+            stroke="url(#marker-wave)"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d={STROKE_SECOND}
+            stroke="url(#marker-wave)"
+            strokeWidth={0.9}
+            strokeLinecap="round"
+            opacity={0.45}
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+
+        {GLINTS.map((g) => (
+          <span
+            key={`${g.top}-${g.left}`}
+            className="glint text-gold absolute block"
+            style={{
+              top: `${g.top}%`,
+              left: `${g.left}%`,
+              width: g.size,
+              height: g.size,
+              animationDelay: `${g.delay}ms`,
+            }}
+          >
+            {g.star ? (
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-full w-full"
+              >
+                <path d={STAR} />
+              </svg>
+            ) : (
+              <span className="bg-gold block h-full w-full rounded-full" />
+            )}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

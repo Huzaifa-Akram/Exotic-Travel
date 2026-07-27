@@ -17,9 +17,6 @@ export const metadata: Metadata = {
  * client's request, and in its place a single gold marker stroke runs
  * the height of the panel. It carries no information, which is the
  * point — the page now asks one thing and decorates the asking.
- *
- * The stroke is desktop-only. It lives in the margin the wide layout
- * has going spare, and a phone has no margin to spend.
  */
 
 /** Query strings are `string | string[] | undefined`; take the first. */
@@ -48,8 +45,21 @@ export default async function QuotePage({
             desktop instead of the two fighting over columns. Stretch is
             the default alignment, which is what gives the stroke the
             panel's full height without either being told what it is. */}
-        <div className="mx-auto flex max-w-5xl gap-8 xl:gap-12">
-          <MarkerWave className="hidden w-14 shrink-0 lg:block" />
+        <div className="relative mx-auto flex max-w-5xl gap-8 xl:gap-12">
+          {/* Two placements, one element.
+              From lg it is an ordinary flex item in the margin the wide
+              layout has going spare.
+              Below that there is no margin to spend, so it comes out of
+              the flow entirely and pins to the left edge of the screen —
+              the negative offset cancels the container's gutter exactly.
+              Out of flow means it contributes no width and no gap, so
+              the form keeps every pixel it had and its two margins stay
+              equal. The offsets overshoot the gutter by a few pixels so
+              the stroke hugs the edge of the screen rather than floating
+              off it; only its widest swings reach as far as the panel's
+              border, and the panel's own padding keeps those clear of
+              the text. */}
+          <MarkerWave className="absolute inset-y-0 -left-7 w-9 md:-left-11 lg:static lg:w-14 lg:shrink-0" />
 
           {/* min-w-0 so a long value inside can never push the panel
               wider than its share of the row. */}
