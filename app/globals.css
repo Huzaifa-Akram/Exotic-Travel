@@ -20,6 +20,10 @@
   --color-text: #ffffff;
   --color-muted: rgba(255, 255, 255, 0.62);
   --color-hairline: rgba(255, 255, 255, 0.1);
+  /* Functional state colour for form validation only — deliberately
+     desaturated so it reads as a correction, not a second brand accent.
+     Never use it decoratively; gold remains the only accent. */
+  --color-danger: #d9736a;
 
   /* ---- Typeface ---- */
   --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
@@ -66,32 +70,48 @@
 
 /* ============================================================
    BASE
+   ------------------------------------------------------------
+   Everything below lives inside @layer base / @layer components
+   on purpose. Tailwind ships its utilities in @layer utilities,
+   and unlayered CSS *always* beats layered CSS in the cascade —
+   so an unlayered `.surface-marble { position: relative }` would
+   silently override a `fixed` utility on the same element.
+   Keeping our classes in a layer means utilities always win.
    ============================================================ */
 
-html {
-  scroll-behavior: smooth;
-  /* Always dark. No prefers-color-scheme switching — this brand
-     is black-only; a light variant would break the imagery. */
-  color-scheme: dark;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Always dark. No prefers-color-scheme switching — this brand
+       is black-only; a light variant would break the imagery. */
+    color-scheme: dark;
+  }
 
-body {
-  background-color: var(--color-ink);
-  color: var(--color-text);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 
-::selection {
-  background-color: var(--color-gold);
-  color: var(--color-ink);
-}
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
 
-/* Visible, on-brand focus ring — accessibility without ugliness */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 3px;
+  /* Visible, on-brand focus ring — accessibility without ugliness */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  /* Film grain, shared by .surface-marble and .grain. Lives here rather
+     than in @theme because Tailwind only emits theme variables that a
+     utility actually references — this one is used by our own CSS. */
+  :root {
+    --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -104,9 +124,15 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    /* Collapsing the duration alone still leaves staggered content
+       waiting on its delay before it appears. Zero both, so a
+       reduced-motion visitor gets the finished state immediately. */
+    animation-delay: 0ms !important;
+    transition-delay: 0ms !important;
   }
 }
 
+@layer components {
 /* ============================================================
    LAYOUT PRIMITIVES
    ============================================================ */
@@ -193,11 +219,77 @@ body {
   pointer-events: none;
   opacity: 0.55;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  background-image: var(--texture-grain);
+}
+
+/* The same grain on its own, for photographic sections. Lighter, so a
+   real photograph keeps its detail — it exists to marry the imagery to
+   the marble surfaces, not to texture it. Needs a positioned host. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: var(--texture-grain);
 }
 
 .surface-raised {
   background-color: var(--color-surface);
+}
+
+/* ============================================================
+   MIRROR GLASS
+   The enquiry bar floats on the hero photograph, so it cannot be
+   an opaque slab without killing the image behind it. Four parts
+   make it read as a real pane rather than a grey rectangle:
+   a saturated blur (the photo survives as a soft reflection), a
+   diagonal sheen, an inset top edge catching the light, and a
+   deep shadow lifting it off the picture.
+   ============================================================ */
+
+.glass {
+  background-color: rgba(10, 10, 10, 0.4);
+  background-image: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.11) 0%,
+    rgba(255, 255, 255, 0.035) 38%,
+    rgba(255, 255, 255, 0.015) 64%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+  backdrop-filter: blur(28px) saturate(150%);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.17),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.035),
+    0 32px 64px -24px rgba(0, 0, 0, 0.85);
+}
+
+/* Popovers that open off the glass bar. Same material, but far more
+   opaque — a calendar has to stay legible over whatever part of the
+   photograph happens to sit behind it. */
+.glass-solid {
+  background-color: rgba(17, 17, 20, 0.94);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 24px 48px -16px rgba(0, 0, 0, 0.9);
+}
+
+/* Fallback for browsers without backdrop-filter (Firefox with the flag
+   off, older WebViews): drop to a near-solid panel so the text never
+   ends up sitting on bare photograph. */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass {
+    background-color: rgba(10, 10, 10, 0.86);
+  }
+  .glass-solid {
+    background-color: rgba(17, 17, 20, 0.98);
+  }
 }
 
 /* ============================================================
@@ -435,3 +527,32 @@ textarea.field {
 .reveal.is-visible {
   animation: rise-in var(--duration-slow) var(--ease-luxe) forwards;
 }
+
+/* Above-the-fold sibling of .reveal. Hero content is already in view on
+   load, so waiting for an IntersectionObserver would just flash it in
+   late; this plays immediately. Stagger the sequence with the
+   `[--rise-delay:120ms]` utility rather than more classes. */
+.rise {
+  opacity: 0;
+  animation: rise-in var(--duration-slow) var(--ease-luxe)
+    var(--rise-delay, 0ms) forwards;
+}
+
+/* One-time settle on a hero photograph: eases out of a slight
+   over-scale, then stops. Deliberately not a looping Ken Burns pan —
+   the brief asks for restrained motion, and a background that never
+   stops moving competes with the headline sitting on top of it. */
+@keyframes settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.settle {
+  animation: settle 2400ms var(--ease-luxe) both;
+}
+
+} /* end @layer components */
