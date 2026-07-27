@@ -98,7 +98,7 @@ export function DatePicker({
         name={name}
         defaultValue={defaultValue}
         aria-label={label}
-        className="w-full rounded-sm border border-white/12 bg-white/5 px-4 py-2.5 text-base text-white"
+        className="field-bar"
       />
     ) : (
       <input

@@ -13,10 +13,18 @@ import { useEffect, useRef } from "react";
  * The wrapper is deliberately taller than the hero and offset upward
  * (see the -top/h pair below) so the photograph can drift down without
  * ever exposing an edge — the travel must stay under that offset.
+ *
+ * Desktop only. Below md the hero shows the photograph whole at its own
+ * aspect ratio, which leaves no headroom to drift into: the wrapper is
+ * flush with its box, so any transform here would slide the picture out
+ * of frame or force a crop back in.
  */
 
 /** Fraction of scroll distance the photograph lags behind the page. */
 const FACTOR = 0.12;
+
+/** Matches the `md:` breakpoint the hero layout switches on. */
+const DESKTOP = "(min-width: 48rem)";
 
 export function HeroParallax({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,11 +52,33 @@ export function HeroParallax({ children }: { children: React.ReactNode }) {
       if (frame === 0) frame = requestAnimationFrame(draw);
     };
 
-    // Restoring a mid-page scroll position (back navigation, refresh)
-    // must not leave the photograph parked at zero.
-    draw();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const desktop = window.matchMedia(DESKTOP);
+
+    // Re-run on every breakpoint crossing, not just on mount: a phone
+    // turned landscape passes 48rem, and the transform left behind by
+    // the other layout would be wrong for the one now on screen.
+    // Re-adding the same listener with the same options is a no-op, so
+    // this is safe to call repeatedly.
+    const sync = () => {
+      if (desktop.matches) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        // Restoring a mid-page scroll position (back navigation,
+        // refresh) must not leave the photograph parked at zero.
+        draw();
+        return;
+      }
+      window.removeEventListener("scroll", onScroll);
+      if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      el.style.transform = "";
+    };
+
+    sync();
+    desktop.addEventListener("change", sync);
     return () => {
+      desktop.removeEventListener("change", sync);
       window.removeEventListener("scroll", onScroll);
       if (frame) cancelAnimationFrame(frame);
     };
@@ -57,7 +87,7 @@ export function HeroParallax({ children }: { children: React.ReactNode }) {
   return (
     <div
       ref={ref}
-      className="absolute inset-x-0 -top-[14%] h-[128%] will-change-transform"
+      className="absolute inset-0 will-change-transform md:top-[-14%] md:bottom-auto md:h-[128%]"
     >
       {children}
     </div>

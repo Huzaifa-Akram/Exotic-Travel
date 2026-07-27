@@ -267,6 +267,26 @@
     0 32px 64px -24px rgba(0, 0, 0, 0.85);
 }
 
+/* Phones sit close to the glass and the enquiry bar has to stay
+   legible over whatever part of the photograph — bright hotel windows
+   included — happens to land behind it, without the luxury of a
+   second scrim layer the way the headline gets one. A flat opacity
+   bump is cheaper and more reliable than tuning the photo per device. */
+@media (width < 40rem) {
+  .glass {
+    background-color: rgba(8, 8, 9, 0.72);
+  }
+}
+
+/* Backdrop behind a centred popover (the date/time pickers). Darker
+   than the nav drawer's scrim because it sits over a photograph, not
+   the flat marble surfaces the drawer dims. */
+.glass-backdrop {
+  background-color: rgba(6, 6, 8, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
 /* Popovers that open off the glass bar. Same material, but far more
    opaque — a calendar has to stay legible over whatever part of the
    photograph happens to sit behind it. */
@@ -485,6 +505,69 @@ textarea.field {
   min-height: 7rem;
 }
 
+/* The hero's enquiry bar. A lighter, denser sibling of .field — it sits
+   on glass rather than marble, so it is a filled well instead of an
+   outlined box.
+
+   Every control in that bar wears this one class: two text inputs, two
+   popover triggers and the native <input type="date|time"> the pickers
+   fall back to before hydration. Sizing them from a single rule is the
+   point — a fixed height rather than vertical padding, because padding
+   plus the theme's 1.7 line-height resolves differently in a <button>
+   than in an <input>, and the bar's controls have to agree to the
+   pixel when they sit in one row. */
+.field-bar {
+  width: 100%;
+  height: 3rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  padding-inline: 1rem;
+  font-family: var(--font-sans);
+  /* 16px, not the 14px the density wants: iOS zooms the whole page in
+     when a focused input is under 16px, which throws the hero layout
+     across the screen on the most common device we have. */
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-text);
+  transition:
+    border-color var(--duration-quick) var(--ease-luxe),
+    background-color var(--duration-quick) var(--ease-luxe);
+}
+
+/* The picker triggers: value on the left, icon pinned right. */
+button.field-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.field-bar::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.field-bar:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Border and fill carry focus, matching .field. */
+.field-bar:focus {
+  outline: none;
+  border-color: rgba(201, 169, 97, 0.6);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* A button focused by mouse matches :focus but not :focus-visible, so it
+   would lose the ring the base layer gives everything else. Put it back
+   for the keyboard case only. */
+button.field-bar:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
 /* ============================================================
    CARDS
    ============================================================ */
@@ -555,4 +638,12 @@ textarea.field {
   animation: settle 2400ms var(--ease-luxe) both;
 }
 
+/* Phones show the hero photograph whole, at its own aspect ratio, so
+   there is nothing to over-scale into — the settle would simply crop
+   6% off every edge for two and a half seconds. */
+@media (width < 48rem) {
+  .settle {
+    animation: none;
+  }
+}
 } /* end @layer components */

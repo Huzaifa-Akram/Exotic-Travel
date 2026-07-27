@@ -54,7 +54,14 @@ export function HeroSearch() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(102deg,transparent_26%,rgba(255,255,255,0.06)_44%,transparent_60%)]"
         />
 
-        <div className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-[10.5rem_8.5rem_minmax(0,1fr)_minmax(0,1fr)_auto] lg:items-end">
+        {/* Four equal columns, not four measured to their contents. The
+            date and time need less room than an address and an earlier
+            pass gave them exactly that — but a row of four different
+            widths reads as a form that was assembled rather than
+            designed, and the two short fields are the ones a visitor
+            looks at first. Equal columns cost the addresses nothing:
+            each still clears the placeholder at the bar's narrowest. */}
+        <div className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:items-end">
           <Labelled label="Pick-up Date">
             <DatePicker
               name="date"
@@ -78,11 +85,7 @@ export function HeroSearch() {
               id="hero-from"
               name="from"
               placeholder="Address, hotel or airport"
-              /* 16px, not the 14px the density wants: iOS zooms the whole
-                 page in when a focused input is under 16px, which throws
-                 the hero layout across the screen on the most common
-                 device we have. */
-              className="w-full rounded-sm border border-white/12 bg-white/5 px-4 py-2.5 text-base text-white transition-colors duration-300 placeholder:text-white/35 hover:border-white/25 focus:border-gold/60 focus:bg-white/8 focus:outline-none"
+              className="field-bar"
             />
           </Labelled>
 
@@ -91,7 +94,7 @@ export function HeroSearch() {
               id="hero-to"
               name="to"
               placeholder="Address, hotel or airport"
-              className="w-full rounded-sm border border-white/12 bg-white/5 px-4 py-2.5 text-base text-white transition-colors duration-300 placeholder:text-white/35 hover:border-white/25 focus:border-gold/60 focus:bg-white/8 focus:outline-none"
+              className="field-bar"
             />
           </Labelled>
 
@@ -100,7 +103,10 @@ export function HeroSearch() {
           <button
             type="submit"
             aria-label="Continue to the full enquiry"
-            className="group bg-gold text-ink hover:bg-gold-bright flex h-[46px] w-full items-center justify-center gap-3 rounded-sm transition-colors duration-500 ease-luxe sm:col-span-2 lg:col-span-1 lg:w-[46px] lg:rounded-full"
+            /* h-12 is the same 3rem the fields are pinned to, so the
+               circle sits exactly on their baseline once the bar is a
+               single row. */
+            className="group bg-gold text-ink hover:bg-gold-bright flex h-12 w-full items-center justify-center gap-3 rounded-sm transition-colors duration-500 ease-luxe sm:col-span-2 lg:col-span-1 lg:w-12 lg:rounded-full"
           >
             {/* The word carries the button while the bar is stacked; once
                 it is a single row, the circle speaks for itself. */}
