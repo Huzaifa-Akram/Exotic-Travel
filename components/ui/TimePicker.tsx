@@ -65,10 +65,13 @@ export function TimePicker({
   const [value, setValue] = useState(isTime(defaultValue) ? defaultValue : "");
 
   // Native input until hydration, and permanently if the bundle fails —
-  // same reasoning as DatePicker.
+  // same reasoning as DatePicker, keys included: without them React
+  // reuses this DOM node for the hidden input below and reports an
+  // uncontrolled input turning controlled.
   if (!mounted) {
     return variant === "bar" ? (
       <input
+        key="native"
         type="time"
         name={name}
         defaultValue={defaultValue}
@@ -77,6 +80,7 @@ export function TimePicker({
       />
     ) : (
       <input
+        key="native"
         type="time"
         name={name}
         defaultValue={defaultValue}
@@ -88,7 +92,7 @@ export function TimePicker({
 
   return (
     <>
-      <input type="hidden" name={name} value={value} />
+      <input key="value" type="hidden" name={name} value={value} />
       <Popover
         label={label}
         display={value}

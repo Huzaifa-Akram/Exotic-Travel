@@ -87,3 +87,38 @@ export const returnOptions = [
   { value: "one-way", label: "One way" },
   { value: "return", label: "Return" },
 ] as const;
+
+/* -------------------------------------------------------------- */
+
+/**
+ * The shape `submitEnquiry` returns, and the state the form starts in.
+ *
+ * These live here rather than beside the action in `lib/actions/enquiry.ts`
+ * because that file is a `"use server"` module, where **every export is
+ * compiled into a server-action reference** — including ones that are not
+ * functions. Exporting this object from there did not fail the build; it
+ * silently reached the client as a callable action stub, so `state.errors`
+ * was `undefined` and the form crashed on its first field. Only async
+ * functions belong in a `"use server"` file.
+ */
+export type EnquiryState = {
+  status: "idle" | "error" | "success";
+  /** Keyed by field name so inputs can show their own message. */
+  errors: Record<string, string>;
+  /**
+   * What was submitted, echoed back on failure. React 19 resets a form
+   * automatically once a function action resolves, which on a form this
+   * long would throw away everything the visitor typed the moment one
+   * field failed validation. Feeding these straight back into each
+   * input's defaultValue means the reset restores their own answers.
+   */
+  values: Record<string, string>;
+  message: string;
+};
+
+export const initialEnquiryState: EnquiryState = {
+  status: "idle",
+  errors: {},
+  values: {},
+  message: "",
+};

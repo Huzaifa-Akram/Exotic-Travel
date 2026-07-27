@@ -646,4 +646,38 @@ button.field-bar:focus-visible {
     animation: none;
   }
 }
+
+/* ============================================================
+   GLINT
+   The specks of light scattered along the gold marker stroke.
+   Long, dim and staggered: each speck sits at a low baseline and
+   catches the light once every five seconds, so the stroke reads
+   as gilded rather than as something blinking for attention.
+   Stagger from the call site with animation-delay.
+   ============================================================ */
+
+@keyframes glint {
+  0%,
+  70%,
+  100% {
+    opacity: 0.18;
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+  82% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.glint {
+  /* The centring translate is repeated in every keyframe, and stated
+     here as well. A transform animation replaces the property outright,
+     so leaving the centring to a utility class would snap each speck
+     down and right by half its own size the moment it played — and the
+     static pair keeps them placed correctly under reduced motion, where
+     the animation never runs. */
+  opacity: 0.18;
+  transform: translate(-50%, -50%) scale(0.55);
+  animation: glint 5s var(--ease-luxe) infinite;
+}
 } /* end @layer components */

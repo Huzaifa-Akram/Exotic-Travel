@@ -3,8 +3,9 @@
  * points, navigation and footer link groups. Header, footer and every
  * page read from here so nothing drifts out of sync.
  *
- * TODO(client): the email below is still a placeholder — replace it once
- * received. It lives only in this object.
+ * TODO(client): the email below is still a placeholder — the domain is
+ * confirmed, the mailbox is not. Replace it once the client tells us which
+ * address they actually read. It lives only in this object.
  *
  * There is deliberately no `address` field. The client has confirmed the
  * registered address is not to be published, so it is absent from the
@@ -19,6 +20,15 @@ export const site = {
   tagline: "Premium Chauffeur & Airport Transfers",
   serviceArea: "London & Nationwide",
 
+  /**
+   * The live domain, bought by the client (confirmed 27 Jul 2026). Canonical
+   * URLs, `metadataBase`, the sitemap and OG tags all need an absolute origin,
+   * so it belongs here rather than being retyped per page. Includes the `www.`
+   * host the client registered — pick one host and stay on it, or the same
+   * page ends up indexed twice.
+   */
+  url: "https://www.exoticexecutive.com",
+
   // --- Contact ---
   // One number, used for both calls and WhatsApp (client, 26 Jul 2026).
   phone: {
@@ -30,8 +40,10 @@ export const site = {
     // wa.me expects the number in full international form, no + or spaces
     href: "https://wa.me/447470200517",
   },
-  // PLACEHOLDER — awaiting client
-  email: "reservations@exotictravel.co.uk",
+  // Domain confirmed; mailbox not. Safe to show — it is on the client's own
+  // domain — but confirm the address exists and is monitored before launch,
+  // and before the Resend pipeline starts replying from it.
+  email: "reservations@exoticexecutive.com",
 
   // Trust wording (add licence number once supplied by client)
   licence: "Licensed & Insured Private Hire Operator",

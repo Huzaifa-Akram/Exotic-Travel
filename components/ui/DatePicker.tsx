@@ -91,9 +91,19 @@ export function DatePicker({
 
   // Before hydration — and forever, if the bundle never arrives — this is
   // an ordinary date input that submits perfectly well.
+  //
+  // The keys here and on the hidden input below are load-bearing, not
+  // decoration. React unwraps an unkeyed top-level fragment before
+  // reconciling, so on the swap it compares this <input> against the
+  // fragment's *first child* — which is also an <input>. Same type, same
+  // (absent) key means it reuses the DOM node and simply swaps
+  // defaultValue for value, which is precisely the "uncontrolled input
+  // being changed to controlled" React warns about. Distinct keys make
+  // it tear this one down and mount the hidden one controlled from birth.
   if (!mounted) {
     return variant === "bar" ? (
       <input
+        key="native"
         type="date"
         name={name}
         defaultValue={defaultValue}
@@ -102,6 +112,7 @@ export function DatePicker({
       />
     ) : (
       <input
+        key="native"
         type="date"
         name={name}
         defaultValue={defaultValue}
@@ -113,7 +124,7 @@ export function DatePicker({
 
   return (
     <>
-      <input type="hidden" name={name} value={value} />
+      <input key="value" type="hidden" name={name} value={value} />
       <Popover
         label={label}
         display={format(value)}

@@ -6,6 +6,7 @@ import {
   contactPreferences,
   journeyTypes,
   vehicleCategories,
+  type EnquiryState,
 } from "@/lib/enquiry";
 
 /**
@@ -25,27 +26,14 @@ import {
  * Until then submissions are logged server-side only; see summarise().
  */
 
-export type EnquiryState = {
-  status: "idle" | "error" | "success";
-  /** Keyed by field name so inputs can show their own message. */
-  errors: Record<string, string>;
-  /**
-   * What was submitted, echoed back on failure. React 19 resets a form
-   * automatically once a function action resolves, which on a form this
-   * long would throw away everything the visitor typed the moment one
-   * field failed validation. Feeding these straight back into each
-   * input's defaultValue means the reset restores their own answers.
-   */
-  values: Record<string, string>;
-  message: string;
-};
-
-export const initialEnquiryState: EnquiryState = {
-  status: "idle",
-  errors: {},
-  values: {},
-  message: "",
-};
+/**
+ * NOTHING but async functions may be exported from this file. It is a
+ * `"use server"` module, so Turbopack compiles every export into a
+ * server-action reference — a plain object exported here reaches the
+ * client as a callable stub instead of its value, with no build error to
+ * warn you. `EnquiryState` and `initialEnquiryState` therefore live in
+ * `lib/enquiry.ts`.
+ */
 
 const text = (data: FormData, key: string) =>
   (data.get(key) as string | null)?.trim() ?? "";

@@ -10,12 +10,13 @@ import {
   airportOptions,
   childSeatOptions,
   contactPreferences,
+  initialEnquiryState,
   journeyTypes,
   returnOptions,
   vehicleCategories,
   vehicleDisclaimer,
 } from "@/lib/enquiry";
-import { initialEnquiryState, submitEnquiry } from "@/lib/actions/enquiry";
+import { submitEnquiry } from "@/lib/actions/enquiry";
 import { site } from "@/lib/site";
 
 /**

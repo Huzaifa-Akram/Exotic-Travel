@@ -289,7 +289,11 @@ the plate area, or ask the client for clean replacements before launch.
 
 ## 16. Confirmed Decisions
 
-- **Domain:** already purchased by client.
+- **Domain:** **`https://www.exoticexecutive.com`** — purchased by the client
+  (confirmed 27 Jul 2026). Lives in `lib/site.ts` as `site.url`; canonicals,
+  `metadataBase`, the sitemap and OG tags must all read it from there.
+  Note the brand name and the domain differ (Exotic Travel / exoticexecutive) —
+  the site keeps the client's brand name in its wording throughout.
 - **Logo:** supplied — `public/logo.svg`.
 - **Tech stack:** **Next.js** (preferred).
 - **Imagery:** supplied — 6 images in `public/` (see above).
@@ -351,7 +355,10 @@ the plate area, or ask the client for clean replacements before launch.
 
 ## 18. Still Missing / To Confirm With Client
 
-- Email address for enquiries — the last placeholder in `lib/site.ts`.
+- Email address for enquiries — currently `reservations@exoticexecutive.com`,
+  an assumed mailbox on the client's confirmed domain (§16). Needs two answers
+  before launch: does that address exist, and who actually reads it? The Resend
+  pipeline will both notify and reply from it.
   (Phone and WhatsApp received; address settled as not-to-be-published — both §16.)
 - Service area / regions covered.
 - Licensing details for "licensed and insured" wording (private hire licence number / authority).
