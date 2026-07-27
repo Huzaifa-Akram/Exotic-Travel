@@ -267,14 +267,15 @@ export default function StyleguidePage() {
       {/* ---------- 09 Imagery ---------- */}
       <Section n="09" title="Imagery" intro="Executive fleet at London landmarks and airports.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+          {/* image-1 is the one .png in the set — see §15 of the brief */}
+          {["image-1.png", "image-2.jpg", "image-3.jpg", "image-4.jpg", "image-5.jpg", "image-6.jpg"].map((file, idx) => (
             <figure
-              key={i}
+              key={file}
               className="relative aspect-[3/2] overflow-hidden rounded-md border border-white/10"
             >
               <Image
-                src={`/image-${i}.jpg`}
-                alt={`Exotic Travel executive fleet ${i}`}
+                src={`/${file}`}
+                alt={`Exotic Travel executive fleet ${idx + 1}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover"

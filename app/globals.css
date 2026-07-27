@@ -607,8 +607,23 @@ button.field-bar:focus-visible {
   opacity: 0;
 }
 
+/* Same stagger hook as .rise: set `[--rise-delay:120ms]` at the call
+   site to run late in a sequence. The delay only starts once the
+   observer has flipped the element visible, so a stagger never makes
+   something wait longer to be noticed — only to settle. */
 .reveal.is-visible {
-  animation: rise-in var(--duration-slow) var(--ease-luxe) forwards;
+  animation: rise-in var(--duration-slow) var(--ease-luxe)
+    var(--rise-delay, 0ms) forwards;
+}
+
+/* The observer that adds .is-visible is JavaScript. Without scripting
+   the class never arrives, and `opacity: 0` above would blank every
+   revealed section — for the same visitor the enquiry form goes out of
+   its way to keep (§17: a lost enquiry is lost revenue). */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+  }
 }
 
 /* Above-the-fold sibling of .reveal. Hero content is already in view on
