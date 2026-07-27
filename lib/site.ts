@@ -3,8 +3,15 @@
  * points, navigation and footer link groups. Header, footer and every
  * page read from here so nothing drifts out of sync.
  *
- * TODO(client): replace the placeholder phone / WhatsApp / email below
- * with the real details once received. They live only in this object.
+ * TODO(client): the email below is still a placeholder — replace it once
+ * received. It lives only in this object.
+ *
+ * There is deliberately no `address` field. The client has confirmed the
+ * registered address is not to be published, so it is absent from the
+ * data rather than merely unrendered: nothing can put it on the page by
+ * reading this object, and anyone adding LocalBusiness structured data
+ * later will find there is no address to hand it. See §16 of
+ * CLIENT_BRIEF.md for the SEO trade-off that accepts.
  */
 
 export const site = {
@@ -12,16 +19,18 @@ export const site = {
   tagline: "Premium Chauffeur & Airport Transfers",
   serviceArea: "London & Nationwide",
 
-  // --- Contact (PLACEHOLDERS — awaiting client) ---
+  // --- Contact ---
+  // One number, used for both calls and WhatsApp (client, 26 Jul 2026).
   phone: {
-    display: "+44 20 0000 0000",
-    href: "tel:+442000000000",
+    display: "+44 7470 200517",
+    href: "tel:+447470200517",
   },
   whatsapp: {
     display: "WhatsApp Us",
     // wa.me expects the number in full international form, no + or spaces
-    href: "https://wa.me/442000000000",
+    href: "https://wa.me/447470200517",
   },
+  // PLACEHOLDER — awaiting client
   email: "reservations@exotictravel.co.uk",
 
   // Trust wording (add licence number once supplied by client)

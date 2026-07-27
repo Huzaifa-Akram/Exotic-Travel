@@ -295,7 +295,16 @@ the plate area, or ask the client for clean replacements before launch.
 - **Imagery:** supplied — 6 images in `public/` (see above).
 - **Brand colours:** black / gold / white (see section 14).
 - **24/7 airport transfers:** confirmed — safe to advertise.
-- **Address:** client will provide later.
+- **Phone / WhatsApp:** `+44 7470 200517` — one number for both (client, 26 Jul 2026).
+  Lives in `lib/site.ts`; header, footer and quote page all read it from there.
+- **Address:** **not to be published.** The client has an address
+  (8 Junction Mews, Paddington, W2 1PN) but has asked for it not to appear on the site,
+  so `lib/site.ts` carries no `address` field at all.
+  - Trade-off, flagged: without a published address the site cannot carry a
+    LocalBusiness address in its structured data, which is the strongest signal
+    Google uses for local map results. A Google Business Profile can still hold the
+    address privately (service-area business, address hidden) and get most of that
+    back — worth raising with the client before launch rather than after.
 
 ---
 
@@ -342,8 +351,8 @@ the plate area, or ask the client for clean replacements before launch.
 
 ## 18. Still Missing / To Confirm With Client
 
-- **Business address** — client said they'll send it later.
-- Contact details: phone number, WhatsApp number, email.
+- Email address for enquiries — the last placeholder in `lib/site.ts`.
+  (Phone and WhatsApp received; address settled as not-to-be-published — both §16.)
 - Service area / regions covered.
 - Licensing details for "licensed and insured" wording (private hire licence number / authority).
 - Google reviews source (Google Business Profile link / place ID) for the reviews section.
