@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 /*
@@ -28,6 +29,10 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
+  // §16: every absolute URL — canonicals, OG tags, the sitemap — derives
+  // from the one domain in lib/site.ts. Pages then declare relative
+  // `alternates.canonical` paths and inherit the origin from here.
+  metadataBase: new URL(site.url),
   title: {
     default: "Exotic Travel — Premium Chauffeur & Airport Transfers",
     template: "%s | Exotic Travel",
