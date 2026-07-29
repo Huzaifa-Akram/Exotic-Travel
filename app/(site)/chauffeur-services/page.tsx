@@ -148,7 +148,7 @@ export default function ChauffeurServicesPage() {
           <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
               <Reveal>
-                <p className="eyebrow">Chauffeur Services</p>
+                <p className="eyebrow">Executive Chauffeur</p>
                 <h1 className="font-display text-h1 mt-5 font-light text-balance">
                   An executive car,{" "}
                   <span className="text-metal">and someone to drive it</span>
