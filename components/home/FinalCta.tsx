@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
+import { PhoneIcon, WhatsAppIcon } from "@/components/home/icons";
 
 /**
  * The closing invitation, and where Call Us and WhatsApp Us — the two
@@ -37,18 +38,20 @@ export function FinalCta() {
             className="mt-11 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
           >
             <Link href="/quote" className="btn btn-primary">
-              Get a Quote
+              Get Instant Quote
             </Link>
-            <a href={site.phone.href} className="btn btn-ghost">
-              Call Us
-            </a>
             <a
               href={site.whatsapp.href}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-ghost"
             >
+              <WhatsAppIcon className="h-4 w-4 shrink-0" />
               WhatsApp Us
+            </a>
+            <a href={site.phone.href} className="btn btn-ghost">
+              <PhoneIcon className="h-4 w-4 shrink-0" />
+              Call Now
             </a>
           </Reveal>
 

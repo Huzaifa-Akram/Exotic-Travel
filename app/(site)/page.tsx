@@ -1,7 +1,9 @@
 import { Hero } from "@/components/site/Hero";
+import { TrustStrip } from "@/components/home/TrustStrip";
 import { Services } from "@/components/home/Services";
 import { AirportTransfers } from "@/components/home/AirportTransfers";
 import { Fleet } from "@/components/home/Fleet";
+import { WhyChoose } from "@/components/home/WhyChoose";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { Concierge } from "@/components/home/Concierge";
 import { Testimonials } from "@/components/home/Testimonials";
@@ -14,7 +16,8 @@ import { FinalCta } from "@/components/home/FinalCta";
  *
  * The order is an argument, not a list: show the breadth (Services),
  * sell the flagship hard (AirportTransfers, per §6),
- * show the cars (Fleet — the hero's "View our Fleet" lands here),
+ * show the cars (Fleet), state the six reasons in the client's own
+ * words (WhyChoose),
  * defuse the no-instant-price model (HowItWorks), differentiate
  * (Concierge, §9), prove it (Testimonials, Faq), then ask (FinalCta,
  * which completes §2's four CTAs with Call Us and WhatsApp Us).
@@ -27,9 +30,11 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustStrip />
       <Services />
       <AirportTransfers />
       <Fleet />
+      <WhyChoose />
       <HowItWorks />
       <Concierge />
       <Testimonials />

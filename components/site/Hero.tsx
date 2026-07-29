@@ -4,6 +4,7 @@ import heroImage from "@/public/image-1.png";
 import { site } from "@/lib/site";
 import { HeroParallax } from "@/components/site/HeroParallax";
 import { HeroSearch } from "@/components/site/HeroSearch";
+import { PhoneIcon, WhatsAppIcon } from "@/components/home/icons";
 
 // No overflow-hidden on the <section>: the date and time popovers open
 // out of the glass bar, and clipping there would slice them off. The
@@ -119,43 +120,36 @@ export function Hero() {
           Met inside arrivals. Tracked in the air. Quoted by hand.
         </p>
 
-        {/* The client named four homepage CTAs (§2). "Book Now" and "Get
-            a Quote" are one action under an enquiry-first model, so the
-            glass bar below is "Book Now" and this is the lower-commitment
-            route into the same form. Call and WhatsApp move to the final
-            CTA section rather than crowding the fold. */}
-        <div className="rise mt-9 flex flex-row items-center gap-4 sm:gap-6 [--rise-delay:230ms]">
+        {/* The client asked for the three ways of saying yes side by
+            side, in this order and wording: quote, WhatsApp (wearing its
+            own mark), call. One solid gold, two outlined — the enquiry
+            bar below stays the fold's main event, and these are the
+            faster doors past it. */}
+        <div className="rise mt-9 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 [--rise-delay:230ms]">
           <Link
             href="/quote"
-            className="border-gold text-gold hover:bg-gold hover:text-ink border px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe sm:px-7"
+            className="bg-gold text-ink hover:bg-gold-bright rounded-sm px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe sm:px-7"
           >
-            Get a Quote
+            Get Instant Quote
           </Link>
 
-          <span aria-hidden className="h-8 w-px bg-white/20" />
-
-          <Link
-            href="#fleet"
-            className="group text-muted hover:text-white flex items-center gap-2.5 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-300"
+          <a
+            href={site.whatsapp.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-gold text-gold hover:bg-gold hover:text-ink flex items-center gap-2.5 rounded-sm border px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe sm:px-6"
           >
-            View our Fleet
-            <svg
-              width="14"
-              height="8"
-              viewBox="0 0 14 8"
-              fill="none"
-              aria-hidden
-              className="text-gold transition-transform duration-500 ease-luxe group-hover:translate-x-1"
-            >
-              <path
-                d="M0 4h12M9 1l3 3-3 3"
-                stroke="currentColor"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
+            <WhatsAppIcon className="h-4 w-4 shrink-0" />
+            WhatsApp Us
+          </a>
+
+          <a
+            href={site.phone.href}
+            className="flex items-center gap-2.5 rounded-sm border border-white/25 px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap text-white uppercase transition-colors duration-500 ease-luxe hover:border-gold hover:text-gold sm:px-6"
+          >
+            <PhoneIcon className="h-4 w-4 shrink-0" />
+            Call Now
+          </a>
         </div>
       </div>
 
@@ -175,6 +169,7 @@ export function Hero() {
         <div className="rise mx-auto max-w-6xl [--rise-delay:270ms]">
           <HeroSearch />
         </div>
+
       </div>
 
       {/* Gold hairline closing the hero, matching the header's rule */}
