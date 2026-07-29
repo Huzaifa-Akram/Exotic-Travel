@@ -6,6 +6,7 @@ import { airportPages, getAirport } from "@/content/airports";
 import { vehicleCategories, vehicleDisclaimer } from "@/lib/enquiry";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { PhoneIcon, WhatsAppIcon } from "@/components/home/icons";
 
 /**
@@ -360,27 +361,7 @@ export default async function AirportPage({ params }: Props) {
             </Reveal>
 
             <Reveal delay={80} className="mt-12">
-              <div className="border-t border-white/10">
-                {a.faqs.map((f) => (
-                  <details key={f.q} className="group border-b border-white/10">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left [&::-webkit-details-marker]:hidden">
-                      <span className="text-base font-medium text-white transition-colors duration-300 group-open:text-gold">
-                        {f.q}
-                      </span>
-                      <span
-                        aria-hidden
-                        className="text-gold relative h-3.5 w-3.5 shrink-0"
-                      >
-                        <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current" />
-                        <span className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current transition-transform duration-400 ease-luxe group-open:scale-y-0" />
-                      </span>
-                    </summary>
-                    <p className="text-muted -mt-1 pb-7 text-sm text-pretty">
-                      {f.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
+              <FaqAccordion items={a.faqs} />
             </Reveal>
           </div>
         </div>

@@ -53,18 +53,7 @@ export const site = {
     "No upfront online payment required. Pay by cash, bank transfer, or card at destination.",
 } as const;
 
-/** Primary navigation — exactly the structure the client specified. */
-export const primaryNav = [
-  { label: "Home", href: "/" },
-  { label: "Chauffeur Services", href: "/chauffeur-services" },
-  { label: "Airport Transfers", href: "/airport-transfers" },
-  { label: "Corporate Travel", href: "/corporate-travel" },
-  { label: "Concierge", href: "/concierge" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-] as const;
-
-/** Airports with dedicated pages (built later as a [airport] template). */
+/** Airports with dedicated pages, driven by content/airports.ts. */
 export const airports = [
   { label: "Heathrow", href: "/airport-transfers/heathrow" },
   { label: "Gatwick", href: "/airport-transfers/gatwick" },
@@ -72,6 +61,71 @@ export const airports = [
   { label: "Stansted", href: "/airport-transfers/stansted" },
   { label: "London City", href: "/airport-transfers/london-city" },
 ] as const;
+
+export type NavLinkItem = { label: string; href: string };
+
+/**
+ * A nav item's dropdown. `overview` is the featured link at the top of
+ * the panel, pointing at the parent's own `href` — which is what makes
+ * the parent page reachable on a touch device, where tapping the parent
+ * opens the menu rather than navigating.
+ */
+export type NavMenu = {
+  overview: { label: string; note: string };
+  links: readonly NavLinkItem[];
+};
+
+export type NavItem = NavLinkItem & { menu?: NavMenu };
+
+/**
+ * Primary navigation — the seven items the client specified (§3), two of
+ * them now carrying a dropdown.
+ *
+ * The dropdowns exist because nine pages had no route into them from the
+ * header at all: the five airports and the four occasion pages were
+ * reachable only from their hub page or the footer.
+ *
+ * "Executive Chauffeur" rather than "Chauffeur Services": the label used
+ * to imply a category containing weddings and events, when it is in fact
+ * one specific service — hire by the journey, the hour or the day. The
+ * footer and the page's own title already called it this; the header was
+ * the odd one out. The occasion pages now sit under it in the dropdown,
+ * where the relationship is visible rather than guessed at.
+ */
+export const primaryNav: readonly NavItem[] = [
+  { label: "Home", href: "/" },
+  {
+    label: "Executive Chauffeur",
+    href: "/chauffeur-services",
+    menu: {
+      overview: {
+        label: "Executive Chauffeur",
+        note: "By the journey, the hour or the day",
+      },
+      links: [
+        { label: "Weddings", href: "/services/weddings" },
+        { label: "Events & Concerts", href: "/services/events" },
+        { label: "Proms", href: "/services/proms" },
+        { label: "Long Distance", href: "/services/long-distance" },
+      ],
+    },
+  },
+  {
+    label: "Airport Transfers",
+    href: "/airport-transfers",
+    menu: {
+      overview: {
+        label: "All London Airports",
+        note: "Met inside arrivals, flights tracked",
+      },
+      links: airports,
+    },
+  },
+  { label: "Corporate Travel", href: "/corporate-travel" },
+  { label: "Concierge", href: "/concierge" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
 
 /** Service pages (built later as a [service] template). */
 export const services = [
