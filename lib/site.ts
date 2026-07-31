@@ -53,13 +53,24 @@ export const site = {
     "No upfront online payment required. Pay by cash, bank transfer, or card at destination.",
 } as const;
 
-/** Airports with dedicated pages, driven by content/airports.ts. */
+/**
+ * Airports with dedicated pages — the nav dropdown and the footer read
+ * this list.
+ *
+ * Deliberately restated here rather than derived from content/airports.ts:
+ * that module imports six photographs and six logos, and this one is
+ * pulled into the Header, a Client Component. Importing it would ship
+ * every airport's page copy to the browser to render seven links.
+ * The trade is a list that must be kept in step by hand — if you add an
+ * airport to content/airports.ts, add it here too.
+ */
 export const airports = [
   { label: "Heathrow", href: "/airport-transfers/heathrow" },
   { label: "Gatwick", href: "/airport-transfers/gatwick" },
   { label: "Luton", href: "/airport-transfers/luton" },
   { label: "Stansted", href: "/airport-transfers/stansted" },
   { label: "London City", href: "/airport-transfers/london-city" },
+  { label: "Farnborough", href: "/airport-transfers/farnborough" },
 ] as const;
 
 export type NavLinkItem = { label: string; href: string };

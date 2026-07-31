@@ -38,7 +38,7 @@ export function FinalCta() {
             className="mt-11 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
           >
             <Link href="/quote" className="btn btn-primary">
-              Get Instant Quote
+              Get a Quote
             </Link>
             <a
               href={site.whatsapp.href}

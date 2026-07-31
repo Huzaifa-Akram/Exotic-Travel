@@ -338,7 +338,7 @@ export default function ConciergePage() {
                 Airport Transfers
               </Link>
               <Link href="/quote" className="btn btn-ghost">
-                Get Instant Quote
+                Get a Quote
               </Link>
             </Reveal>
           </div>

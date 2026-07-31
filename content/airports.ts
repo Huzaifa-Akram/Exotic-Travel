@@ -4,6 +4,15 @@ import gatwickImage from "@/public/image-1.png";
 import lutonImage from "@/public/image-3.jpg";
 import stanstedImage from "@/public/image-5.jpg";
 import cityImage from "@/public/image-2.jpg";
+import farnboroughImage from "@/public/image-6.jpg";
+// Filenames are as the client supplied them — note `heathrow.png` is the
+// one in lower case. Windows does not care; a Linux build host does.
+import farnboroughLogo from "@/public/airport-logo/Farnborough.png";
+import gatwickLogo from "@/public/airport-logo/Gatwick.png";
+import heathrowLogo from "@/public/airport-logo/heathrow.png";
+import londonCityLogo from "@/public/airport-logo/London-City.png";
+import lutonLogo from "@/public/airport-logo/Luton.png";
+import stanstedLogo from "@/public/airport-logo/Stansted.png";
 
 /**
  * The five dedicated airport pages the brief requires (§8), as data —
@@ -47,6 +56,21 @@ export type Airport = {
   quotePrefill: string;
   image: StaticImageData;
   imageAlt: string;
+  /**
+   * The airport's own mark. Always rendered through `.logo-mono`, which
+   * flattens it to white — every one of these is dark artwork on
+   * transparency, and Farnborough's is near-black, so untreated they
+   * range from hard to read to invisible on the site's ink.
+   */
+  logo: StaticImageData;
+  /**
+   * Optical height for the mark. They cannot share one value: the set
+   * runs from 3.19:1 to 0.88:1 (London City is the only portrait mark),
+   * and internal padding varies wildly — Heathrow's wordmark floats in
+   * the middle third of its canvas, Stansted's is cropped tight. These
+   * even out apparent size, not box size.
+   */
+  logoSize: string;
   metaDescription: string;
   faqs: AirportFaq[];
 };
@@ -69,6 +93,8 @@ export const airportPages: Airport[] = [
     body: "Heathrow is the journey we drive most, and it shows in the small things: which arrivals door your terminal actually uses, where the trolleys run out, and how long the walk from gate to kerb really takes. Your quote is fixed before you fly, whatever the M4 decides.",
     quotePrefill: "Heathrow Airport (LHR)",
     image: heathrowImage,
+    logo: heathrowLogo,
+    logoSize: "h-11 md:h-13",
     imageAlt:
       "A chauffeur waiting with a black Mercedes V-Class at the Heathrow Terminal 2 drop-off",
     metaDescription:
@@ -105,6 +131,8 @@ export const airportPages: Airport[] = [
     body: "Gatwick's distance is exactly why a fixed quote matters: whatever the M23 and the hour decide, the price you agreed is the price you pay. Early departures are met with the same calm as midnight landings — the car is scheduled to your flight, not to office hours.",
     quotePrefill: "Gatwick Airport (LGW)",
     image: gatwickImage,
+    logo: gatwickLogo,
+    logoSize: "h-10 md:h-12",
     imageAlt:
       "A chauffeur opening the rear door of a black Mercedes S-Class at a luxury hotel entrance",
     metaDescription:
@@ -141,6 +169,8 @@ export const airportPages: Airport[] = [
     body: "Luton serves more red-eyes than most, and a red-eye is precisely when a tracked flight and a waiting chauffeur earn their keep. The quote is fixed before you fly, the car is scheduled to the aircraft, and the M1 is our problem rather than yours.",
     quotePrefill: "Luton Airport (LTN)",
     image: lutonImage,
+    logo: lutonLogo,
+    logoSize: "h-9 md:h-11",
     imageAlt:
       "A chauffeur at the door of a black Mercedes S-Class outside Claridge's at dusk",
     metaDescription:
@@ -177,6 +207,8 @@ export const airportPages: Airport[] = [
     body: "Stansted rewards leaving nothing to chance: it is the furthest of London's main airports, and its schedule leans early and late. We plan the departure around your flight, track the return leg from take-off, and hold the same fixed price at 4am as at 4pm.",
     quotePrefill: "Stansted Airport (STN)",
     image: stanstedImage,
+    logo: stanstedLogo,
+    logoSize: "h-9 md:h-11",
     imageAlt:
       "A black Mercedes S-Class outside The Dorchester, chauffeur holding the rear door open",
     metaDescription:
@@ -213,6 +245,8 @@ export const airportPages: Airport[] = [
     body: "City is the airport where minutes matter most, and its short walk from gate to kerb is an advantage only if the car is already there. Ours is — scheduled to the flight, tracked in the air, with a chauffeur who knows that a City landing usually has a meeting on the other end.",
     quotePrefill: "London City Airport (LCY)",
     image: cityImage,
+    logo: londonCityLogo,
+    logoSize: "h-12 md:h-14",
     imageAlt:
       "A top-hatted doorman opening the door of a black Mercedes S-Class outside The Savoy",
     metaDescription:
@@ -229,6 +263,52 @@ export const airportPages: Airport[] = [
       {
         q: "What if my flight into London City is delayed?",
         a: "The pick-up follows the aircraft. We monitor the flight from departure, so delays and early arrivals move the collection automatically and the price never changes.",
+      },
+    ],
+  },
+
+  /**
+   * Added at the client's request — it is not in the brief's §8, and it
+   * is the only one here that is not a scheduled commercial airport, so
+   * the copy is written for a different traveller: no concourse, no
+   * arrivals hall, and a departure timed to an aircraft that leaves when
+   * its passengers do. Distances and times stay approximate, as above.
+   */
+  {
+    slug: "farnborough",
+    name: "Farnborough",
+    fullName: "Farnborough Airport",
+    code: "FAB",
+    distance: "≈ 35 miles",
+    direction: "south-west of central London",
+    journeyTime: "60–80 min",
+    terminalsStat: "1 terminal",
+    terminals: ["Private Terminal"],
+    terminalNote:
+      "Farnborough handles private and business aviation through a single dedicated terminal — so there is no concourse to be found in and no arrivals hall to wait in. Your chauffeur is at the door.",
+    intro:
+      "Chauffeur transfers to and from Britain's dedicated business aviation airport — a car timed to your aircraft rather than to a published schedule, and a chauffeur who understands that private travel is chosen for its discretion.",
+    body: "Private aviation moves when its passengers do, which makes a fixed schedule the wrong tool for the job. Give us the tail or flight number and we watch it exactly as we would a commercial arrival, so the car is at the terminal when you walk out — whether that is the hour you planned or two hours later.",
+    quotePrefill: "Farnborough Airport (FAB)",
+    image: farnboroughImage,
+    logo: farnboroughLogo,
+    logoSize: "h-8 md:h-10",
+    imageAlt:
+      "The Exotic Travel fleet — a Range Rover, Mercedes S-Class and Mercedes V-Class lined up on wet airport tarmac",
+    metaDescription:
+      "Chauffeur-driven Farnborough Airport transfers for private and business aviation. A car timed to your aircraft, discreet professional chauffeurs and fixed bespoke quotes.",
+    faqs: [
+      {
+        q: "Do you meet private jet arrivals at Farnborough?",
+        a: "Yes, and it is a large part of what we do there. Give us the tail or flight number when you book and we track the aircraft in, so the car is waiting at the terminal when you step out rather than being called for once you have landed.",
+      },
+      {
+        q: "How long is the drive from Farnborough into London?",
+        a: "Usually between an hour and an hour and twenty, traffic on the M3 allowing — and the quotation is fixed before you travel either way, so a slow stretch of motorway is our problem rather than yours.",
+      },
+      {
+        q: "Can you arrange the aircraft as well as the car?",
+        a: "Our concierge arranges private jet and helicopter charter, quoted per trip, with the car meeting you at both ends so the transfer is never the loose end. Ask when you enquire and we will put the whole journey together.",
       },
     ],
   },

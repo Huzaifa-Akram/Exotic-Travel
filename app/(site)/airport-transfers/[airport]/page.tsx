@@ -49,8 +49,11 @@ const arrivalSteps = [
   },
   {
     n: "02",
-    title: "Inside arrivals",
-    text: "Your chauffeur waits in the arrivals hall with a name board and clear instructions already in your inbox, ready to help with luggage the moment you clear the doors.",
+    title: "When you land",
+    // "Inside the terminal" rather than "in the arrivals hall": one of
+    // these six is a private aviation airport with neither a concourse
+    // nor an arrivals hall, and this copy is shared by all of them.
+    text: "Your chauffeur waits inside the terminal with a name board and clear instructions already in your inbox, ready to help with luggage the moment you clear the doors.",
   },
   {
     n: "03",
@@ -117,6 +120,18 @@ export default async function AirportPage({ params }: Props) {
                   </ol>
                 </nav>
 
+                {/* The airport's own mark, flattened to white by
+                    .logo-mono. Sits above our headline rather than
+                    beside it — adjacent to our own wordmark it would
+                    read as a joint logo, which is a claim we are not
+                    making. */}
+                <Image
+                  src={a.logo}
+                  alt={a.fullName}
+                  sizes="220px"
+                  className={`logo-mono mt-7 w-auto max-w-full object-contain opacity-70 ${a.logoSize}`}
+                />
+
                 <h1 className="font-display text-h1 mt-6 font-light text-balance">
                   {a.name} Airport <span className="text-metal">Transfers</span>
                 </h1>
@@ -131,7 +146,7 @@ export default async function AirportPage({ params }: Props) {
                 className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
               >
                 <Link href={quoteHref} className="btn btn-primary">
-                  Get Instant Quote
+                  Get a Quote
                 </Link>
                 <a
                   href={site.whatsapp.href}
@@ -388,7 +403,7 @@ export default async function AirportPage({ params }: Props) {
               className="mt-11 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
             >
               <Link href={quoteHref} className="btn btn-primary">
-                Get Instant Quote
+                Get a Quote
               </Link>
               <a
                 href={site.whatsapp.href}

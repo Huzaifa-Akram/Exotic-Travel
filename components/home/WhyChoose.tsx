@@ -2,55 +2,55 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
 import {
   CarIcon,
-  GemIcon,
-  HeadsetIcon,
+  NameBoardIcon,
   PlaneIcon,
   SteeringWheelIcon,
+  TagIcon,
   WaterIcon,
 } from "@/components/home/icons";
 
 /**
- * "Why Choose Exotic Executive?" — the six reasons in the client's own
- * words, given a room of their own between the fleet and the booking
- * steps: the cars have just made the visual case, this makes the
- * spoken one, and How It Works then closes.
+ * "Why Choose Exotic Travel" — the six reasons in the client's own
+ * words and in the client's own order, given a room of their own
+ * between the fleet and the booking steps: the cars have just made the
+ * visual case, this makes the spoken one, and How It Works then closes.
  *
- * NOTE(brand): the heading says "Exotic Executive" because the client
- * asked for exactly that, but the header, footer and logo all say
- * "Exotic Travel" (§16 keeps the brand name despite the domain).
- * Confirm with the client which name is final before launch.
+ * These six replaced an earlier set that led on 24/7 support and price.
+ * Both are still argued elsewhere — support on the contact page, price
+ * in How It Works and the FAQ — so nothing was lost by swapping them
+ * for meet & greet and fixed pricing.
  */
 
 const reasons = [
   {
-    icon: SteeringWheelIcon,
-    title: "Professional Chauffeurs",
-    text: "Trained, suited and discreet — the service is ultimately the person driving.",
+    icon: PlaneIcon,
+    title: "Flight Monitoring",
+    text: "We track the aircraft, not the booking. A delay or an early landing simply moves your pick-up, at no extra cost.",
   },
   {
-    icon: PlaneIcon,
-    title: "Flight Tracking Included",
-    text: "Every airport pick-up is monitored from take-off to touchdown, at no extra cost.",
+    icon: NameBoardIcon,
+    title: "Meet & Greet",
+    text: "Your chauffeur waits inside arrivals with a name board and helps with the luggage — never a phone call from the kerb.",
+  },
+  {
+    icon: SteeringWheelIcon,
+    title: "Professional Chauffeurs",
+    text: "Suited, licensed and discreet, assigned to your booking in advance and expected to be in position early.",
+  },
+  {
+    icon: CarIcon,
+    title: "Luxury Vehicles",
+    text: "Late-model Mercedes S-Class, E-Class and V-Class or similar, valeted before every single journey.",
   },
   {
     icon: WaterIcon,
     title: "Complimentary Bottled Water",
-    text: "Chilled and waiting in every car, on every journey — the small things, done.",
+    text: "Chilled and waiting in every car, on every journey — the small things, done without being asked.",
   },
   {
-    icon: CarIcon,
-    title: "Executive Mercedes Fleet",
-    text: "Late-model Mercedes S-Class, E-Class and V-Class or similar, immaculately kept.",
-  },
-  {
-    icon: HeadsetIcon,
-    title: "24/7 Customer Support",
-    text: "A person on the phone or WhatsApp at any hour — never a ticket queue.",
-  },
-  {
-    icon: GemIcon,
-    title: "Luxury Without the Luxury Price",
-    text: "We aim to beat comparable Uber and Bolt prices, mile for mile.",
+    icon: TagIcon,
+    title: "Fixed Pricing",
+    text: "Quoted by hand and agreed before you travel. No meter, no surge pricing, and no surprises at the end.",
   },
 ] as const;
 
@@ -62,7 +62,7 @@ export function WhyChoose() {
           eyebrow="The Difference"
           title={
             <span id="why-heading">
-              Why choose <span className="text-metal">Exotic Executive?</span>
+              Why choose <span className="text-metal">Exotic Travel?</span>
             </span>
           }
           lead="The service is in the details — the ones you notice, and the dozens you never have to."

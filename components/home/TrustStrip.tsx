@@ -9,6 +9,13 @@ import {
 } from "@/components/home/icons";
 
 /**
+ * CURRENTLY UNUSED. AirportStrip took this slot below the hero when the
+ * client's "Why Choose Exotic Travel" section landed carrying four of
+ * the six badges below. Kept rather than deleted because it is a
+ * finished component and the decision is one import away from being
+ * reversed — put it back in app/(site)/page.tsx if the client wants the
+ * badges nearer the fold again.
+ *
  * The client's six assurances, first thing under the hero — the trust
  * sale the homepage has to make "within the first few seconds". Three
  * treatments were tried inside the hero itself (bare ticks, a glass

@@ -76,7 +76,7 @@ export default function AirportTransfersPage() {
               className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
             >
               <Link href="/quote" className="btn btn-primary">
-                Get Instant Quote
+                Get a Quote
               </Link>
               <a
                 href={site.whatsapp.href}
@@ -113,14 +113,23 @@ export default function AirportTransfersPage() {
                   href={`/airport-transfers/${a.slug}`}
                   className="card card-interactive group flex h-full flex-col p-8"
                 >
-                  <p className="font-display text-metal text-display leading-none font-light">
-                    {a.code}
-                  </p>
+                  {/* Fixed-height box so six marks of very different
+                      proportions all reserve the same room and the
+                      headings below them line up across the grid. */}
+                  <div className="flex h-14 items-center">
+                    <Image
+                      src={a.logo}
+                      alt={a.fullName}
+                      sizes="220px"
+                      className={`logo-mono w-auto max-w-full object-contain opacity-70 transition-opacity duration-500 ease-luxe group-hover:opacity-100 ${a.logoSize}`}
+                    />
+                  </div>
                   <h3 className="mt-5 text-base font-medium text-white">
                     {a.fullName} Transfers
                   </h3>
                   <p className="text-muted mt-2.5 text-sm">
-                    {a.distance} {a.direction} · {a.journeyTime} typical
+                    <span className="text-gold">{a.code}</span> · {a.distance}{" "}
+                    {a.direction} · {a.journeyTime} typical
                   </p>
                   <span className="text-gold mt-auto flex items-center gap-2.5 pt-6 text-[11px] tracking-[0.14em] uppercase">
                     View transfers
@@ -145,24 +154,23 @@ export default function AirportTransfersPage() {
               </Reveal>
             ))}
 
-            {/* Sixth cell — anywhere the five don't cover. */}
-            <Reveal delay={180}>
-              <div className="card flex h-full flex-col border-dashed p-8">
-                <p className="font-display text-display leading-none font-light text-white/25">
-                  ···
-                </p>
-                <h3 className="mt-5 text-base font-medium text-white">
-                  Another airport?
-                </h3>
-                <p className="text-muted mt-2.5 text-sm">
-                  Cruise ports, private terminals and airports beyond London
-                  are quoted the same way — by hand, before you travel.
-                </p>
-                <Link
-                  href="/quote"
-                  className="text-gold hover:text-gold-bright mt-auto flex items-center gap-2.5 pt-6 text-[11px] tracking-[0.14em] uppercase transition-colors"
-                >
-                  Ask for a quote
+            {/* Anywhere the six don't cover. Full width rather than a
+                seventh tile: six airports fill two clean rows of three,
+                and a lone card in a third row reads as a gap. */}
+            <Reveal delay={180} className="sm:col-span-2 lg:col-span-3">
+              <div className="card flex flex-col items-start gap-6 border-dashed p-8 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 className="text-base font-medium text-white">
+                    Another airport, or a cruise port?
+                  </h3>
+                  <p className="text-muted mt-2 max-w-xl text-sm text-pretty">
+                    Regional airports and cruise terminals anywhere in the
+                    country are quoted exactly the same way — by hand, and
+                    fixed before you travel.
+                  </p>
+                </div>
+                <Link href="/quote" className="btn btn-secondary shrink-0">
+                  Get a Quote
                 </Link>
               </div>
             </Reveal>
@@ -258,7 +266,7 @@ export default function AirportTransfersPage() {
               className="mt-11 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
             >
               <Link href="/quote" className="btn btn-primary">
-                Get Instant Quote
+                Get a Quote
               </Link>
               <a href={site.phone.href} className="btn btn-ghost">
                 Call {site.phone.display}

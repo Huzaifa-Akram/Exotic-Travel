@@ -186,7 +186,7 @@ export default function ContactPage() {
                 the price comes back right the first time.
               </p>
               <Link href="/quote" className="btn btn-primary mt-8">
-                Get Instant Quote
+                Get a Quote
               </Link>
               <p className="mt-5 text-xs text-white/45">{site.paymentNote}</p>
             </div>

@@ -569,6 +569,124 @@ button.field-bar:focus-visible {
 }
 
 /* ============================================================
+   HERO VIGNETTE
+   ------------------------------------------------------------
+   The hero photograph is a lit terminal at night — bright glass,
+   headlights and wet tarmac reflecting all of it — and the
+   header, the headline and the enquiry bar all have to stay
+   legible on top of it.
+
+   Four edge gradients rather than one flat tint or a single
+   radial. A blanket scrim buys contrast by throwing away the
+   photograph, which is the most expensive asset on the page; a
+   plain vignette darkens the corners hardest, which here is
+   exactly where the terminal roof and the sky are, and it pinches
+   the middle where the car sits.
+
+   Each edge eases through five stops rather than running straight
+   from solid to transparent. Alpha interpolates linearly, so a
+   two-stop fade shows a visible band where it lands — the
+   intermediate stops are the whole reason this reads as smooth.
+   The four layers overlap at the corners and compound there
+   naturally, so the corners deepen without a seam.
+   ============================================================ */
+
+.hero-vignette {
+  background-image:
+    /* top — clears the fixed header */
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.88) 0%,
+      rgba(10, 10, 10, 0.62) 7%,
+      rgba(10, 10, 10, 0.34) 15%,
+      rgba(10, 10, 10, 0.13) 24%,
+      rgba(10, 10, 10, 0.04) 31%,
+      transparent 40%
+    ),
+    /* bottom — carries the enquiry bar, so it goes deepest */
+    linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.96) 0%,
+      rgba(10, 10, 10, 0.78) 9%,
+      rgba(10, 10, 10, 0.48) 19%,
+      rgba(10, 10, 10, 0.22) 29%,
+      rgba(10, 10, 10, 0.07) 38%,
+      transparent 48%
+    ),
+    /* left */
+    linear-gradient(
+      to right,
+      rgba(10, 10, 10, 0.8) 0%,
+      rgba(10, 10, 10, 0.55) 7%,
+      rgba(10, 10, 10, 0.3) 15%,
+      rgba(10, 10, 10, 0.12) 24%,
+      rgba(10, 10, 10, 0.03) 31%,
+      transparent 40%
+    ),
+    /* right */
+    linear-gradient(
+      to left,
+      rgba(10, 10, 10, 0.8) 0%,
+      rgba(10, 10, 10, 0.55) 7%,
+      rgba(10, 10, 10, 0.3) 15%,
+      rgba(10, 10, 10, 0.12) 24%,
+      rgba(10, 10, 10, 0.03) 31%,
+      transparent 40%
+    ),
+    /* A pool behind the copy itself. The edges above cannot reach here,
+       and this is where the type actually sits — over the lit glass of
+       the terminal, the brightest region in the frame. Four stops so it
+       has no discernible boundary. */
+      radial-gradient(
+        72% 56% at 50% 40%,
+        rgba(10, 10, 10, 0.74) 0%,
+        rgba(10, 10, 10, 0.52) 38%,
+        rgba(10, 10, 10, 0.24) 62%,
+        transparent 82%
+      ),
+    /* And a flat base under everything. A night photograph of a lit
+       building has bright highlights scattered right across it —
+       headlights, window frames, wet tarmac catching both — and no
+       gradient aimed at an edge or a centre will catch all of them.
+       28% costs the photograph very little and is what makes white
+       type reliable rather than lucky. */
+      linear-gradient(rgba(10, 10, 10, 0.28), rgba(10, 10, 10, 0.28));
+}
+
+/* Hero type sits on a photograph, so it carries a shadow the rest of the
+   site's type does not need. Set on the copy wrapper rather than each
+   element — text-shadow inherits, so the eyebrow, headline, subheading,
+   buttons and trust row all pick it up from one declaration.
+
+   Two shadows doing two jobs: a tight dark one that sharpens the letter
+   edges against a busy background, and a wide soft one that lifts the
+   whole block off the image without looking like a drop shadow. */
+.hero-copy {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 4px 22px rgba(0, 0, 0, 0.55);
+}
+
+/* ============================================================
+   THIRD-PARTY MARKS
+   ------------------------------------------------------------
+   The airport logos arrive as full-colour artwork on transparent
+   backgrounds, and every one of them is dark: Heathrow purple,
+   Gatwick navy, Luton mauve, Farnborough near-black. On this
+   site's ink they range from hard to read to literally invisible.
+
+   brightness(0) crushes every colour to black while leaving the
+   alpha channel untouched; invert(1) then lifts that silhouette
+   to white. The result is legible, identical in treatment across
+   all six, and obeys §14 — gold stays the only accent, rather
+   than six competing corporate palettes landing on one band.
+   ============================================================ */
+
+.logo-mono {
+  filter: brightness(0) invert(1);
+}
+
+/* ============================================================
    CARDS
    ============================================================ */
 

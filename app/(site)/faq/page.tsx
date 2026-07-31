@@ -156,7 +156,7 @@ export default function FaqPage() {
                 Call Now
               </a>
               <Link href="/quote" className="btn btn-ghost">
-                Get Instant Quote
+                Get a Quote
               </Link>
             </Reveal>
           </div>

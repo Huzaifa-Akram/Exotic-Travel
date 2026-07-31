@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import heroImage from "@/public/image-1.png";
+import heroImage from "@/public/home-hero.png";
 import { site } from "@/lib/site";
 import { HeroParallax } from "@/components/site/HeroParallax";
 import { HeroSearch } from "@/components/site/HeroSearch";
@@ -26,21 +26,24 @@ export function Hero() {
       {/* ---------------- Photograph ----------------
           mt-16 clears the fixed header so the frame is shown whole and
           unobstructed; from md up it goes back to covering the section. */}
-      <div className="relative mt-16 aspect-7298/4634 w-full overflow-hidden md:absolute md:inset-0 md:mt-0 md:-z-10 md:aspect-auto">
+      <div className="relative mt-16 aspect-2752/1536 w-full overflow-hidden md:absolute md:inset-0 md:mt-0 md:-z-10 md:aspect-auto">
         <HeroParallax>
           <Image
             src={heroImage}
-            alt="A chauffeur opening the rear door of a black Mercedes-Benz S-Class at a luxury hotel entrance"
+            alt="A chauffeur in a black suit holding open the rear door of a black Mercedes-Benz S-Class outside a London airport terminal at night"
             fill
             preload
             placeholder="blur"
             sizes="100vw"
             quality={85}
             /* Below md the box matches the file's own aspect ratio, so
-               `cover` crops nothing and the position is moot. It earns
-               its keep on portrait tablets, where centring the crop
-               loses the chauffeur. */
-            className="settle object-cover object-[66%_center] md:object-center"
+               `cover` crops nothing and the position is moot. From md up
+               it earns its keep: the chauffeur stands at about 27% across
+               and the car runs from 35% to 88%, so a centred crop on a
+               portrait tablet would cut the chauffeur out of his own
+               photograph. 45% keeps both, and costs a landscape desktop
+               almost nothing. */
+            className="settle object-cover md:object-[45%_center]"
           />
         </HeroParallax>
 
@@ -62,19 +65,14 @@ export function Hero() {
       {/* ---------------- Legibility scrims ----------------
           Two targeted layers, not a blanket tint. A flat scrim buys
           contrast by throwing away the photograph, which is the most
-          expensive asset on the page — so the top and bottom edges are
-          darkened where the header and the glass bar need to sit, and
-          the middle of the frame is left alone. Only needed while type
-          sits on the picture, which below md it no longer does. */}
+          expensive asset on the page — so all four edges are drawn down
+          and the middle of the frame, where the car is, is left alone.
+          `.hero-vignette` owns the gradients; see globals.css for why
+          each edge eases through five stops. Only needed while type sits
+          on the picture, which below md it no longer does. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 hidden bg-linear-to-b from-ink/60 via-transparent to-ink/90 md:block"
-      />
-      {/* A soft pool of ink behind the headline only. Keeps the type
-          clear of the hotel's warm lighting without hazing the car. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 hidden bg-[radial-gradient(58%_42%_at_50%_40%,rgba(10,10,10,0.6)_0%,transparent_72%)] md:block"
+        className="hero-vignette pointer-events-none absolute inset-0 -z-10 hidden md:block"
       />
 
       {/* ---------------- Headline ----------------
@@ -85,39 +83,44 @@ export function Hero() {
           copy opens up the photograph instead of pulling the form up.
 
           Below md there is no slack to absorb, so the negative margin
-          does the work instead: 63.5vw is the frame's height (100vw at
-          its 7298/4634 ratio), which lifts this block's top flush with
+          does the work instead: 55.8vw is the frame's height (100vw at
+          its 2752/1536 ratio), which lifts this block's top flush with
           the photograph's and lets pt-9 place the eyebrow on the
-          building. `relative` is load-bearing — the frame above is
+          terminal. `relative` is load-bearing — the frame above is
           positioned, so a static block here would paint underneath it.
+
+          The headline is longer than the frame is tall on a phone, so
+          the buttons deliberately fall past the foot of the photograph
+          onto solid ink — which is where the scrim above has already
+          faded to, so the two read as one surface rather than a seam.
 
           The matching min-height is what keeps the enquiry bar clear: the
           pull-up also shortens the flow by the frame's height, so on the
           wider phones — where the frame is taller than this copy — the bar
           would otherwise ride up under the photograph. */}
-      <div className="container-x relative mt-[-63.5vw] flex min-h-[63.5vw] flex-1 flex-col items-center pt-9 pb-10 text-center md:mt-0 md:min-h-0 md:pt-28 xl:pt-32">
+      <div className="hero-copy container-x relative mt-[-55.8vw] flex min-h-[55.8vw] flex-1 flex-col items-center pt-9 pb-10 text-center md:mt-0 md:min-h-0 md:pt-28 xl:pt-32">
         <p className="eyebrow rise flex items-center gap-4">
           <span className="h-px w-8 bg-gold sm:w-12" />
           Executive Chauffeur — {site.serviceArea}
           <span className="h-px w-8 bg-gold sm:w-12" />
         </p>
 
-        {/* Carries "executive travel" for search while saying the thing
-            the brief actually sells: §4's bespoke, hand-arranged
-            booking, not a meter. text-h1 rather than text-display — a
-            step down the scale keeps it on one line at desktop widths
-            and stops it competing with the photograph. */}
+        {/* Says what we sell in the words people search for — the
+            client asked for this headline specifically, and it is the
+            better one: the previous line was elegant but a visitor who
+            landed here from "airport transfer london" had to infer that
+            we do airport transfers. text-h1 rather than text-display,
+            which at this length would run to four lines on a phone. */}
         <h1 className="font-display text-h1 rise mt-6 max-w-5xl text-balance font-light [--rise-delay:90ms]">
-          Executive travel,{" "}
-          <span className="text-metal">precisely arranged.</span>
+          Luxury Airport Transfers &amp;{" "}
+          <span className="text-metal">Chauffeur Services</span>
         </h1>
 
-        {/* Three beats, not three sentences of prose. Each is a selling
-            point the brief singles out — meet & greet (§6), live flight
-            monitoring (§6), a quotation by hand rather than a meter (§4)
-            — cut to the length someone actually reads. */}
+        {/* The old headline, kept as the subheading at the client's
+            request. It still does real work down here — the H1 states
+            the category, this states the standard. */}
         <p className="text-muted rise mt-6 text-base text-pretty md:mt-7 md:text-lg [--rise-delay:180ms]">
-          Met inside arrivals. Tracked in the air. Quoted by hand.
+          Executive travel, precisely arranged.
         </p>
 
         {/* The client asked for the three ways of saying yes side by
@@ -126,18 +129,25 @@ export function Hero() {
             bar below stays the fold's main event, and these are the
             faster doors past it. */}
         <div className="rise mt-9 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 [--rise-delay:230ms]">
+          {/* Dark ink on gold needs no shadow — it would only muddy the
+              letters, and .hero-copy hands one down to everything. */}
           <Link
             href="/quote"
-            className="bg-gold text-ink hover:bg-gold-bright rounded-sm px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe sm:px-7"
+            className="bg-gold text-ink hover:bg-gold-bright rounded-sm px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe text-shadow-none sm:px-7"
           >
-            Get Instant Quote
+            Get a Quote
           </Link>
 
+          {/* Both outlined buttons carry a translucent ink fill rather
+              than sitting on bare photograph. An outline alone survives
+              only where the frame behind it happens to be dark, and this
+              one has headlights and lit glass running right through the
+              band the buttons sit in. */}
           <a
             href={site.whatsapp.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="border-gold text-gold hover:bg-gold hover:text-ink flex items-center gap-2.5 rounded-sm border px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase transition-colors duration-500 ease-luxe sm:px-6"
+            className="border-gold text-gold hover:bg-gold hover:text-ink bg-ink/40 flex items-center gap-2.5 rounded-sm border px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap uppercase backdrop-blur-[2px] transition-colors duration-500 ease-luxe sm:px-6"
           >
             <WhatsAppIcon className="h-4 w-4 shrink-0" />
             WhatsApp Us
@@ -145,12 +155,43 @@ export function Hero() {
 
           <a
             href={site.phone.href}
-            className="flex items-center gap-2.5 rounded-sm border border-white/25 px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap text-white uppercase transition-colors duration-500 ease-luxe hover:border-gold hover:text-gold sm:px-6"
+            className="bg-ink/40 hover:border-gold hover:text-gold flex items-center gap-2.5 rounded-sm border border-white/35 px-5 py-3 text-[11px] tracking-[0.14em] whitespace-nowrap text-white uppercase backdrop-blur-[2px] transition-colors duration-500 ease-luxe sm:px-6"
           >
             <PhoneIcon className="h-4 w-4 shrink-0" />
             Call Now
           </a>
         </div>
+
+        {/* Trust row. Three short assurances and nothing else — earlier
+            passes tried ticks in rings, a glass grid and a ruled band,
+            and every one of them turned the fold into an interface.
+            Type and a gold separator is the same device the closing CTA
+            uses, so it reads as the house voice rather than a widget.
+
+            A list rather than one paragraph of spans: adjacent JSX
+            elements carry no whitespace between them, so an inline
+            version gives the browser nowhere to break and the line runs
+            off the side of a phone. Flex wraps on the items themselves
+            and each assurance stays whole. */}
+        <ul
+          aria-label="Why book with us"
+          className="rise mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-[11px] tracking-[0.14em] text-white/60 uppercase [--rise-delay:260ms]"
+        >
+          {[
+            "Licensed & Insured",
+            "No Payment to Request a Quote",
+            "Average Response in 5 Minutes",
+          ].map((claim, i, all) => (
+            <li key={claim} className="flex items-center gap-x-3">
+              {claim}
+              {i < all.length - 1 && (
+                <span aria-hidden className="text-gold/60">
+                  ·
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* ---------------- Enquiry bar ----------------
