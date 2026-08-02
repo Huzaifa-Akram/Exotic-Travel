@@ -1,4 +1,5 @@
 import { Hero } from "@/components/site/Hero";
+import { TrustStrip } from "@/components/home/TrustStrip";
 import { AirportStrip } from "@/components/home/AirportStrip";
 import { Services } from "@/components/home/Services";
 import { AirportTransfers } from "@/components/home/AirportTransfers";
@@ -35,6 +36,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustStrip />
       <AirportStrip />
       <Services />
       <AirportTransfers />

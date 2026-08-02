@@ -50,7 +50,7 @@ const reasons = [
   {
     icon: TagIcon,
     title: "Fixed Pricing",
-    text: "Quoted by hand and agreed before you travel. No meter, no surge pricing, and no surprises at the end.",
+    text: "Agreed before you travel. No meter, no surge pricing, and no surprises at the end.",
   },
 ] as const;
 

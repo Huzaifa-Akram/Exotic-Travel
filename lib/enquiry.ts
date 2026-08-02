@@ -46,15 +46,15 @@ export const vehicleCategories = [
     value: "executive-saloon",
     label: "Executive Saloon",
     passengers: "Up to 4 passengers",
-    luggage: "Up to 3 suitcases",
-    examples: "Mercedes S-Class, BMW 7 Series, Audi A8 or similar",
+    luggage: "Up to 3 standard suitcases",
+    examples: "Mercedes-Benz S-Class, BMW 7 Series, Audi A8 or a comparable vehicle.",
   },
   {
     value: "executive-mpv",
     label: "Executive MPV",
     passengers: "Up to 7 passengers",
-    luggage: "Up to 6 suitcases",
-    examples: "Mercedes V-Class, Ford Tourneo, VW Multivan or similar",
+    luggage: "Up to 6 standard suitcases",
+    examples: "Mercedes-Benz V-Class, Ford Tourneo, Volkswagen Multivan or a comparable vehicle.",
   },
   {
     value: "recommend",
@@ -71,9 +71,10 @@ export const vehicleDisclaimer =
 /** §4b — "child seat request". Named seats rather than a yes/no so we know what to fit. */
 export const childSeatOptions = [
   { value: "none", label: "Not required" },
-  { value: "infant", label: "Infant carrier (0–12 months)" },
-  { value: "child", label: "Child seat (1–4 years)" },
-  { value: "booster", label: "Booster seat (4–11 years)" },
+  { value: "infant", label: "Infant carrier" },
+  { value: "toddler", label: "Toddler seat" },
+  { value: "booster", label: "Booster seat" },
+  { value: "multiple", label: "More than one seat" },
 ];
 
 /** §12 — confirmations go out by email / SMS / WhatsApp, so we ask which. */

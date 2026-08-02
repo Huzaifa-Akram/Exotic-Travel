@@ -21,12 +21,12 @@ const steps = [
   {
     n: "02",
     title: "Receive your quotation",
-    text: "A fixed, bespoke price prepared by hand — usually within the hour, always within 24. We aim to beat comparable Uber and Bolt prices.",
+    text: "A bespoke quotation — usually within the hour, always within 24. Competitive fixed pricing with a premium chauffeur service.",
   },
   {
     n: "03",
     title: "Travel",
-    text: "Your chauffeur is confirmed, your flight watched, your door held. Pay by cash, bank transfer, or card at your destination.",
+    text: "Your chauffeur is confirmed and your door held. Pay by cash, bank transfer, or card at your destination.",
   },
 ] as const;
 

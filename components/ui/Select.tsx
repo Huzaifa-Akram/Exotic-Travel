@@ -23,6 +23,7 @@ export function Select({
   name?: string;
   id?: string;
   defaultValue?: string;
+  onChange?: (value: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(defaultValue);
@@ -54,9 +55,11 @@ export function Select({
   }, [active, open]);
 
   function choose(i: number) {
-    setValue(options[i].value);
+    const newVal = options[i].value;
+    setValue(newVal);
     setActive(i);
     setOpen(false);
+    if (onChange) onChange(newVal);
   }
 
   function onKeyDown(e: React.KeyboardEvent) {

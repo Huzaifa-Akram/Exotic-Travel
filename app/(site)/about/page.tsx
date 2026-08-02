@@ -194,9 +194,7 @@ export default function AboutPage() {
                 and a price that was settled before you left home.
               </p>
               <p className="text-muted mt-6 text-lg text-pretty">
-                None of that is expensive to promise. It is simply expensive to
-                do badly — which is why we would rather quote each journey
-                properly than run a meter and hope.
+                These details may appear effortless, but delivering them consistently requires preparation, experience and attention at every stage — which is why we would rather quote each journey properly than run a meter and hope.
               </p>
             </Reveal>
           </div>

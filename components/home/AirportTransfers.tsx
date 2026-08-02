@@ -22,7 +22,7 @@ const features = [
   {
     icon: NameBoardIcon,
     title: "Met inside arrivals",
-    text: "Your chauffeur waits at the gate with a name board — no calls, no searching the concourse.",
+    text: "Your chauffeur waits inside the arrivals hall with a personalised name board — no calls, no searching the concourse.",
   },
   {
     icon: PlaneIcon,

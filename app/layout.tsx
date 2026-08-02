@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { site } from "@/lib/site";
+import { CookieBanner } from "@/components/site/CookieBanner";
 import "./globals.css";
 
 /*
@@ -51,7 +52,10 @@ export default function RootLayout({
       lang="en-GB"
       className={`${cormorant.variable} ${inter.variable} h-full`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+        <CookieBanner />
+      </body>
     </html>
   );
 }

@@ -26,12 +26,12 @@ import {
  */
 
 const assurances = [
-  { icon: ShieldIcon, label: "Licensed & Insured" },
-  { icon: PlaneIcon, label: "Flight Monitoring" },
-  { icon: NameBoardIcon, label: "Meet & Greet Included" },
-  { icon: ClockIcon, label: "24/7 Service" },
-  { icon: TagIcon, label: "Fixed Prices" },
-  { icon: SteeringWheelIcon, label: "Executive Chauffeurs" },
+  { icon: ClockIcon, label: "Available 24/7" },
+  { icon: TagIcon, label: "Fixed quotations" },
+  { icon: PlaneIcon, label: "Flight monitoring" },
+  { icon: NameBoardIcon, label: "Meet & Greet" },
+  { icon: SteeringWheelIcon, label: "Professional chauffeurs" },
+  { icon: ShieldIcon, label: "London & Nationwide" },
 ] as const;
 
 export function TrustStrip() {

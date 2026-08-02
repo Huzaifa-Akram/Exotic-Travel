@@ -19,18 +19,6 @@ import {
 import { submitEnquiry } from "@/lib/actions/enquiry";
 import { site } from "@/lib/site";
 
-/**
- * The full enquiry, covering every field the client listed in §4a and
- * §4b of the brief. The three values from the hero search bar arrive as
- * props and prefill the top so nothing is typed twice.
- *
- * A Client Component because two sections appear conditionally and the
- * validation messages come back through useActionState. With JavaScript
- * off, the text inputs, radios, checkbox and textarea still post to the
- * Server Action — the enquiry lands, just without the conditional
- * flight fields (which are optional, and can go in Special requests).
- */
-
 export type QuotePrefill = {
   from: string;
   to: string;
@@ -38,12 +26,6 @@ export type QuotePrefill = {
   time: string;
 };
 
-/**
- * Preselects the journey type from what was typed in the hero bar, so a
- * visitor who wrote "Heathrow T5" lands with the flight fields already
- * open instead of hunting for them. Only ever a starting guess — the
- * segmented control above it is the real answer.
- */
 const AIRPORT_WORDS =
   /\b(airport|heathrow|gatwick|luton|stansted|london city|lhr|lgw|ltn|stn|lcy|terminal)\b/i;
 
@@ -52,8 +34,6 @@ function guessJourney({ from, to }: QuotePrefill) {
   if (AIRPORT_WORDS.test(from)) return "airport-pickup";
   return "point-to-point";
 }
-
-/* -------------------------------------------------------------- */
 
 function Legend({ n, title }: { n: string; title: string }) {
   return (
@@ -97,10 +77,6 @@ function Field({
   );
 }
 
-/**
- * Segmented radio group. Native radios under the styling, so the choice
- * survives without JavaScript and arrives in the FormData either way.
- */
 function Segmented({
   name,
   options,
@@ -140,8 +116,6 @@ function Segmented({
     </div>
   );
 }
-
-/* -------------------------------------------------------------- */
 
 function Confirmation() {
   return (
@@ -184,8 +158,6 @@ function Confirmation() {
   );
 }
 
-/* -------------------------------------------------------------- */
-
 export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
   const [state, formAction, pending] = useActionState(
     submitEnquiry,
@@ -195,16 +167,18 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
 
   const [journeyType, setJourneyType] = useState(() => guessJourney(prefill));
   const [tripType, setTripType] = useState("one-way");
+  const [childSeat, setChildSeat] = useState("none");
 
   if (state.status === "success") return <Confirmation />;
 
-  // Echoed submissions win over the hero prefill: after a failed attempt
-  // the visitor's own edits are the newer truth.
   const was = (name: string, fallback = "") => state.values[name] ?? fallback;
   const err = (name: string) => state.errors[name];
-  const showFlight = airportJourneyTypes.includes(journeyType);
+  
+  const isAirportPickup = journeyType === "airport-pickup";
+  const isAirportDropoff = journeyType === "airport-dropoff";
+  const isHourly = journeyType === "hourly";
+  const showFlight = isAirportPickup || isAirportDropoff;
 
-  /** Marks an input invalid and points it at its own message. */
   const invalid = (name: string, id: string) =>
     err(name)
       ? { "aria-invalid": true as const, "aria-describedby": `${id}-error` }
@@ -212,7 +186,7 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
 
   return (
     <form action={formAction} className="mt-14">
-      {/* Bots fill every field they can see. Humans never see this one. */}
+      {/* Honeypot field for spam protection */}
       <input
         type="text"
         name="company"
@@ -238,7 +212,7 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
             </Field>
 
             <Field
-              label="Pick-up location"
+              label={isHourly ? "Start location" : "Pick-up location"}
               htmlFor={`${uid}-from`}
               error={err("from")}
             >
@@ -252,31 +226,42 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
               />
             </Field>
 
-            <Field
-              label={
-                journeyType === "hourly"
-                  ? "Where are you heading? (optional)"
-                  : "Drop-off location"
-              }
-              htmlFor={`${uid}-to`}
-              error={err("to")}
-              hint={
-                journeyType === "hourly"
-                  ? "Hourly hire keeps the car and chauffeur with you."
-                  : undefined
-              }
-            >
-              <input
-                id={`${uid}-to`}
-                name="to"
-                defaultValue={was("to", prefill.to)}
-                placeholder="Address, hotel or airport"
-                {...invalid("to", `${uid}-to`)}
-                className="field"
-              />
-            </Field>
+            {!isHourly && (
+              <Field
+                label="Drop-off location"
+                htmlFor={`${uid}-to`}
+                error={err("to")}
+              >
+                <input
+                  id={`${uid}-to`}
+                  name="to"
+                  defaultValue={was("to", prefill.to)}
+                  placeholder="Address, hotel or airport"
+                  {...invalid("to", `${uid}-to`)}
+                  className="field"
+                />
+              </Field>
+            )}
 
-            <Field label="Pick-up date" error={err("date")}>
+            {isHourly && (
+              <Field
+                label="Number of hours"
+                htmlFor={`${uid}-hours`}
+                error={err("hours")}
+              >
+                <input
+                  id={`${uid}-hours`}
+                  name="hours"
+                  type="number"
+                  min={2}
+                  defaultValue={was("hours", "4")}
+                  {...invalid("hours", `${uid}-hours`)}
+                  className="field"
+                />
+              </Field>
+            )}
+
+            <Field label={isHourly ? "Start date" : (isAirportDropoff ? "Recommended pick-up date" : "Pick-up date")} error={err("date")}>
               <DatePicker
                 name="date"
                 label="Pick-up date"
@@ -285,7 +270,7 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
               />
             </Field>
 
-            <Field label="Pick-up time" error={err("time")}>
+            <Field label={isHourly ? "Start time" : (isAirportDropoff ? "Recommended pick-up time" : "Pick-up time")} error={err("time")}>
               <TimePicker
                 name="time"
                 label="Pick-up time"
@@ -305,6 +290,16 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
 
             {tripType === "return" && (
               <>
+                <Field label="Return pick-up location" htmlFor={`${uid}-returnFrom`} error={err("returnFrom")} className="md:col-span-2">
+                  <input
+                    id={`${uid}-returnFrom`}
+                    name="returnFrom"
+                    defaultValue={was("returnFrom")}
+                    placeholder="Address, hotel or airport"
+                    {...invalid("returnFrom", `${uid}-returnFrom`)}
+                    className="field"
+                  />
+                </Field>
                 <Field label="Return date" error={err("returnDate")}>
                   <DatePicker
                     name="returnDate"
@@ -322,6 +317,18 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
                     invalid={!!err("returnTime")}
                   />
                 </Field>
+                
+                {showFlight && (
+                  <Field label="Return flight number (if applicable)" htmlFor={`${uid}-returnFlightNumber`} className="md:col-span-2">
+                    <input
+                      id={`${uid}-returnFlightNumber`}
+                      name="returnFlightNumber"
+                      defaultValue={was("returnFlightNumber")}
+                      placeholder="BA 217"
+                      className="field"
+                    />
+                  </Field>
+                )}
               </>
             )}
           </div>
@@ -338,33 +345,13 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
             </p>
 
             <div className="grid gap-6 md:grid-cols-2">
-              <Field label="Airport" htmlFor={`${uid}-airport`}>
+              <Field label={isAirportDropoff ? "Departure airport" : "Arrival airport"} htmlFor={`${uid}-airport`}>
                 <Select
                   id={`${uid}-airport`}
                   name="airport"
                   options={airportOptions}
                   defaultValue={was("airport")}
                   placeholder="Select an airport"
-                />
-              </Field>
-
-              <Field label="Airline" htmlFor={`${uid}-airline`}>
-                <input
-                  id={`${uid}-airline`}
-                  name="airline"
-                  defaultValue={was("airline")}
-                  placeholder="British Airways"
-                  className="field"
-                />
-              </Field>
-
-              <Field label="Flight number" htmlFor={`${uid}-flightNumber`}>
-                <input
-                  id={`${uid}-flightNumber`}
-                  name="flightNumber"
-                  defaultValue={was("flightNumber")}
-                  placeholder="BA 216"
-                  className="field"
                 />
               </Field>
 
@@ -379,6 +366,33 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
                   defaultValue={was("terminal")}
                   placeholder="Terminal 5"
                   className="field"
+                />
+              </Field>
+
+              <Field label="Flight number" htmlFor={`${uid}-flightNumber`}>
+                <input
+                  id={`${uid}-flightNumber`}
+                  name="flightNumber"
+                  defaultValue={was("flightNumber")}
+                  placeholder="BA 216"
+                  className="field"
+                />
+              </Field>
+
+              <Field label={isAirportDropoff ? "Flight departure date" : "Scheduled landing date"} error={err("flightDate")}>
+                <DatePicker
+                  name="flightDate"
+                  label="Flight date"
+                  defaultValue={was("flightDate")}
+                  invalid={!!err("flightDate")}
+                />
+              </Field>
+              <Field label={isAirportDropoff ? "Flight departure time" : "Scheduled landing time"} error={err("flightTime")}>
+                <TimePicker
+                  name="flightTime"
+                  label="Flight time"
+                  defaultValue={was("flightTime")}
+                  invalid={!!err("flightTime")}
                 />
               </Field>
             </div>
@@ -419,8 +433,6 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
             ))}
           </div>
 
-          {/* §5 requires this wording verbatim in spirit — we are never
-              locked into one model. Do not delete. */}
           <p className="mt-4 text-xs text-white/40">{vehicleDisclaimer}</p>
 
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -455,8 +467,21 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
                 options={childSeatOptions}
                 defaultValue={was("childSeat", "none")}
                 placeholder="Not required"
+                onChange={(val) => setChildSeat(val)}
               />
             </Field>
+
+            {childSeat !== "none" && (
+              <Field label="Child's age" htmlFor={`${uid}-childAge`} className="md:col-span-3">
+                <input
+                  id={`${uid}-childAge`}
+                  name="childAge"
+                  defaultValue={was("childAge")}
+                  placeholder="e.g. 2 years old"
+                  className="field"
+                />
+              </Field>
+            )}
           </div>
         </fieldset>
 
@@ -464,41 +489,58 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
         <fieldset>
           <Legend n={showFlight ? "04" : "03"} title="Anything else" />
 
-          <label className="flex cursor-pointer items-start gap-4 rounded-sm border border-white/10 bg-white/[0.02] p-5 transition-colors duration-300 hover:border-white/20">
-            <input
-              type="checkbox"
-              name="meetGreet"
-              defaultChecked={
-                state.status === "idle" ? true : was("meetGreet") === "on"
-              }
-              className="accent-gold mt-0.5 h-4 w-4 shrink-0"
-            />
-            <span>
-              <span className="block text-sm font-medium text-white">
-                Meet &amp; greet
+          {isAirportPickup && (
+            <label className="mb-6 flex cursor-pointer items-start gap-4 rounded-sm border border-white/10 bg-white/[0.02] p-5 transition-colors duration-300 hover:border-white/20">
+              <input
+                type="checkbox"
+                name="meetGreet"
+                defaultChecked={true}
+                className="accent-gold mt-0.5 h-4 w-4 shrink-0"
+              />
+              <span>
+                <span className="block text-sm font-medium text-white">
+                  Meet &amp; greet (Included as standard)
+                </span>
+                <span className="text-muted mt-1 block text-sm">
+                  Your chauffeur parks, comes inside with a name board and
+                  helps with the luggage.
+                </span>
               </span>
-              <span className="text-muted mt-1 block text-sm">
-                Your chauffeur parks, comes inside with a name board and
-                helps with the luggage.
-              </span>
-            </span>
-          </label>
+            </label>
+          )}
 
-          <Field
-            label="Special requests"
-            htmlFor={`${uid}-notes`}
-            className="mt-6"
-            hint="Have an itinerary or documents to send? Reply to your confirmation email and attach them."
-          >
-            <textarea
-              id={`${uid}-notes`}
-              name="notes"
-              rows={4}
-              defaultValue={was("notes")}
-              placeholder="Multiple stops, a waiting car at the other end, accessibility needs, preferred temperature — anything at all."
-              className="field"
-            />
-          </Field>
+          <div className="grid gap-6 md:grid-cols-2">
+            <Field
+              label={isHourly ? "Planned stops or itinerary" : "Additional stops"}
+              htmlFor={`${uid}-stops`}
+              className="md:col-span-2"
+              hint={isHourly ? undefined : "Need to pick up a colleague or drop off keys?"}
+            >
+              <textarea
+                id={`${uid}-stops`}
+                name="stops"
+                rows={2}
+                defaultValue={was("stops")}
+                className="field"
+              />
+            </Field>
+
+            <Field
+              label="Special requests"
+              htmlFor={`${uid}-notes`}
+              className="md:col-span-2"
+              hint="Have documents to send? Reply to your confirmation email and attach them."
+            >
+              <textarea
+                id={`${uid}-notes`}
+                name="notes"
+                rows={3}
+                defaultValue={was("notes")}
+                placeholder="Accessibility needs, preferred temperature, specific vehicle requests — anything at all."
+                className="field"
+              />
+            </Field>
+          </div>
         </fieldset>
 
         {/* ---------------- 05 Contact ---------------- */}
@@ -546,6 +588,15 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
               />
             </Field>
 
+            <Field label="Promotional code" htmlFor={`${uid}-promoCode`} className="md:col-span-2">
+              <input
+                id={`${uid}-promoCode`}
+                name="promoCode"
+                defaultValue={was("promoCode")}
+                className="field"
+              />
+            </Field>
+
             <Field
               label="Preferred way to reach you"
               className="md:col-span-2"
@@ -553,6 +604,21 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
             >
               <ContactPreference initial={was("contactPreference", "email")} />
             </Field>
+
+            <div className="md:col-span-2 mt-2">
+              <label className="flex items-start gap-4">
+                <input
+                  type="checkbox"
+                  name="privacyConsent"
+                  required
+                  defaultChecked={true}
+                  className="accent-gold mt-1 h-4 w-4 shrink-0"
+                />
+                <span className="text-sm text-white/60">
+                  I consent to the collection and processing of my details to receive a quotation.
+                </span>
+              </label>
+            </div>
           </div>
         </fieldset>
       </div>
@@ -582,7 +648,6 @@ export function QuoteForm({ prefill }: { prefill: QuotePrefill }) {
   );
 }
 
-/** Split out purely so the segmented control can hold its own state. */
 function ContactPreference({ initial }: { initial: string }) {
   const [value, setValue] = useState(initial);
   return (
