@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useId, useState } from "react";
+import { useActionState, useId, useState, useEffect } from "react";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { Select } from "@/components/ui/Select";
 import { TimePicker } from "@/components/ui/TimePicker";
@@ -118,6 +118,10 @@ function Segmented({
 }
 
 function Confirmation() {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div className="card mt-14 p-10 text-center md:p-14">
       <div className="rule-gold mx-auto" />

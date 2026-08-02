@@ -17,6 +17,7 @@ export function Select({
   name,
   id,
   defaultValue = "",
+  onChange,
 }: {
   options: SelectOption[];
   placeholder?: string;

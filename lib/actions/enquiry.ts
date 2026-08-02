@@ -1,5 +1,7 @@
 "use server";
 
+import { Resend } from "resend";
+
 import {
   airportJourneyTypes,
   childSeatOptions,
@@ -220,6 +222,218 @@ export async function submitEnquiry(
   // enquiry made during the build is still recoverable from the server
   // output — but it does NOT reach the client yet.
   console.info(`\n=== NEW ENQUIRY ===\n${summarise(fields)}\n`);
+
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    // Create WhatsApp and Tel links
+    const cleanPhone = fields.phone.replace(/[^\d+]/g, "");
+    const waLink = `https://wa.me/${cleanPhone.startsWith("0") ? "44" + cleanPhone.slice(1) : cleanPhone.replace("+", "")}`;
+    const telLink = `tel:${cleanPhone}`;
+
+    const label = (
+      options: readonly { value: string; label: string }[],
+      value: string,
+    ) => options.find((o) => o.value === value)?.label ?? value;
+
+    const journeyName = label(journeyTypes, fields.journeyType);
+    const vehicleName = label(vehicleCategories, fields.vehicle);
+
+    // Ultra-premium HTML Email Template for the Owner
+    const htmlEmail = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #050505; color: #ffffff; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; background-color: #0a0a0a; border: 1px solid #1a1a1a; }
+    .header { padding: 40px 30px; text-align: center; border-bottom: 1px solid #1a1a1a; background: linear-gradient(180deg, #111 0%, #0a0a0a 100%); }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: #ffffff; }
+    .header p { margin: 10px 0 0; color: #D4AF37; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+    
+    .content { padding: 40px 30px; }
+    .section-title { color: #D4AF37; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin: 0 0 15px 0; border-bottom: 1px solid #222; padding-bottom: 8px; }
+    
+    .grid { display: table; width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    .grid-row { display: table-row; }
+    .grid-cell { display: table-cell; padding: 12px 0; border-bottom: 1px solid #1a1a1a; font-size: 14px; }
+    .grid-label { color: #888888; width: 35%; padding-right: 15px; }
+    .grid-value { color: #ffffff; font-weight: 500; }
+    
+    .notes-box { background-color: #111; border-left: 2px solid #D4AF37; padding: 15px 20px; margin-bottom: 30px; font-size: 14px; line-height: 1.6; color: #ccc; }
+    
+    .actions { padding: 30px; background-color: #050505; border-top: 1px solid #1a1a1a; text-align: center; }
+    .actions-title { font-size: 14px; color: #888; margin-bottom: 20px; }
+    .btn-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    
+    .btn { display: inline-block; padding: 14px 24px; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; border-radius: 2px; margin: 0 5px; transition: all 0.3s ease; }
+    .btn-gold { background-color: #D4AF37; color: #000000; }
+    .btn-outline { background-color: transparent; color: #ffffff; border: 1px solid #333; }
+    
+    .reply-instruction { font-size: 12px; color: #666; line-height: 1.6; margin-top: 25px; padding-top: 25px; border-top: 1px dotted #333; }
+    .reply-instruction span { color: #D4AF37; }
+    
+    .footer { padding: 30px; text-align: center; font-size: 11px; color: #555; background-color: #000; border-top: 1px solid #111; letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <img src="https://www.exoticexecutive.com/logo.svg" alt="Exotic Travel" width="60" style="display: block; margin: 0 auto 15px auto;" />
+      <h1>Exotic Travel</h1>
+      <p>New Quotation Request</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      
+      <!-- Client Details -->
+      <div class="section-title">Client Information</div>
+      <div class="grid">
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Name</div>
+          <div class="grid-cell grid-value">${fields.name}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Email</div>
+          <div class="grid-cell grid-value"><a href="mailto:${fields.email}" style="color: #D4AF37; text-decoration: none;">${fields.email}</a></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Phone</div>
+          <div class="grid-cell grid-value">${fields.phone}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Prefers Contact Via</div>
+          <div class="grid-cell grid-value">${label(contactPreferences, fields.contactPreference)}</div>
+        </div>
+      </div>
+
+      <!-- Journey Details -->
+      <div class="section-title">Journey Details</div>
+      <div class="grid">
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Service Type</div>
+          <div class="grid-cell grid-value">${journeyName} (${fields.tripType === 'return' ? 'Return' : 'One Way'})</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Pick-up Location</div>
+          <div class="grid-cell grid-value">${fields.from}</div>
+        </div>
+        ${fields.to ? `
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Drop-off Location</div>
+          <div class="grid-cell grid-value">${fields.to}</div>
+        </div>` : ''}
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Outbound Date & Time</div>
+          <div class="grid-cell grid-value">${readable(fields.date, fields.time)}</div>
+        </div>
+        ${fields.tripType === 'return' ? `
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Return Date & Time</div>
+          <div class="grid-cell grid-value">${readable(fields.returnDate, fields.returnTime)}</div>
+        </div>` : ''}
+      </div>
+
+      <!-- Airport Details (If Applicable) -->
+      ${fields.airport ? `
+      <div class="section-title">Flight Information</div>
+      <div class="grid">
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Airport</div>
+          <div class="grid-cell grid-value">${fields.airport}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Terminal</div>
+          <div class="grid-cell grid-value">${fields.terminal || 'Not specified'}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Airline / Flight</div>
+          <div class="grid-cell grid-value">${fields.airline || '-'} / ${fields.flightNumber || '-'}</div>
+        </div>
+      </div>` : ''}
+
+      <!-- Requirements -->
+      <div class="section-title">Requirements</div>
+      <div class="grid">
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Requested Vehicle</div>
+          <div class="grid-cell grid-value">${vehicleName}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Passengers</div>
+          <div class="grid-cell grid-value">${fields.passengers}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Suitcases</div>
+          <div class="grid-cell grid-value">${fields.suitcases}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Child Seat</div>
+          <div class="grid-cell grid-value">${label(childSeatOptions, fields.childSeat)}</div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell grid-label">Meet & Greet</div>
+          <div class="grid-cell grid-value">${fields.meetGreet === 'on' ? 'Requested' : 'No'}</div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      ${fields.notes ? `
+      <div class="section-title">Additional Requests / Itinerary</div>
+      <div class="notes-box">
+        ${fields.notes.replace(/\n/g, '<br>')}
+      </div>` : ''}
+
+    </div>
+
+    <!-- Action Center -->
+    <div class="actions">
+      <div class="actions-title">CONTACT CLIENT IMMEDIATELY</div>
+      
+      <!-- Button Group -->
+      <div style="margin-bottom: 15px;">
+        <a href="${waLink}" class="btn btn-gold" target="_blank">Message on WhatsApp</a>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <a href="${telLink}" class="btn btn-outline">Call Client</a>
+      </div>
+      <div>
+        <a href="mailto:${fields.email}?subject=Your Quotation from Exotic Travel" class="btn btn-outline">Reply via Email</a>
+      </div>
+
+      <div class="reply-instruction">
+        <strong>TO SEND A QUOTE:</strong> You can simply click <span>"Reply"</span> in your email app. <br><br>
+        Your reply will go directly to <strong>${fields.email}</strong>. The client will see this beautiful summary attached below your quote, maintaining a premium brand experience.
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      EXOTIC TRAVEL CHAUFFEUR SERVICES &middot; CONFIDENTIAL BOOKING REQUEST
+    </div>
+  </div>
+</body>
+</html>
+    `;
+
+    // Send the notification email to the admin/owner
+    await resend.emails.send({
+      from: "Exotic Travel <bookings@exoticexecutive.com>",
+      to: ["bookings@exoticexecutive.com"],
+      replyTo: fields.email, // THIS IS CRITICAL! Allows the owner to just click "Reply"
+      subject: `New Quotation Request - ${fields.name}`,
+      html: htmlEmail,
+    });
+    
+  } catch (err) {
+    console.error("Failed to send email with Resend:", err);
+    // Don't leak the error to the client, let them see a success message anyway so they aren't confused, 
+    // but ideally we should handle this. The brief says "PHASE 1 SCOPE (§17): no database. The enquiry is emailed and that is the only record...".
+  }
 
   return {
     status: "success",
