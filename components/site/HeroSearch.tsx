@@ -84,7 +84,7 @@ export function HeroSearch() {
             <input
               id="hero-from"
               name="from"
-              placeholder="Address, hotel or airport"
+              placeholder="Airport, hotel or address"
               className="field-bar"
             />
           </Labelled>

@@ -7,7 +7,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/home/SectionHeading";
 
 /**
- * What we arrange, beyond the airport run the next section owns. Three
+ * What we arrange beyond the airport run, which owns the top of the
+ * page (§16) — this section follows it rather than competing with it. Three
  * photographic cards for the services with pages of their own, then the
  * full roll-call of occasions from §1 as a single quiet line — the brief
  * is emphatic that we are not airport-only, and the list is how every
@@ -125,7 +126,7 @@ export function Services() {
     <section className="section" aria-labelledby="services-heading">
       <div className="container-x">
         <SectionHeading
-          eyebrow="Chauffeur Services"
+          eyebrow="Beyond the Airport"
           title={
             <span id="services-heading">
               One standard, <span className="text-metal">every occasion</span>

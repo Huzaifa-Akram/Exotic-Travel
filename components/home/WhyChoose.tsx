@@ -40,7 +40,7 @@ const reasons = [
   {
     icon: CarIcon,
     title: "Luxury Vehicles",
-    text: "Late-model Mercedes S-Class, E-Class and V-Class or similar, valeted before every single journey.",
+    text: "Late-model Mercedes S-Class and E-Class, and the family-sized Ford Tourneo Custom, or similar — valeted before every single journey.",
   },
   {
     icon: WaterIcon,

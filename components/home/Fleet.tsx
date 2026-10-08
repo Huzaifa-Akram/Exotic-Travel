@@ -40,7 +40,7 @@ export function Fleet() {
           <div className="grain relative aspect-16/9 overflow-hidden rounded-md border border-white/10 md:aspect-21/9">
             <Image
               src={fleet}
-              alt="The Exotic Travel fleet — a Range Rover, Mercedes S-Class and Mercedes V-Class lined up at Heathrow Terminal 3"
+              alt="The Exotic Travel fleet — a Range Rover, Mercedes S-Class and executive MPV lined up at Heathrow Terminal 3"
               fill
               placeholder="blur"
               sizes="(max-width: 1280px) 100vw, 1216px"

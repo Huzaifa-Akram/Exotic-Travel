@@ -132,7 +132,7 @@ export default function AboutPage() {
               <div className="grain relative aspect-4/3 overflow-hidden rounded-md border border-white/10">
                 <Image
                   src={fleet}
-                  alt="The Exotic Travel fleet — a Range Rover, Mercedes S-Class and Mercedes V-Class lined up at Heathrow Terminal 3"
+                  alt="The Exotic Travel fleet — a Range Rover, Mercedes S-Class and executive MPV lined up at Heathrow Terminal 3"
                   fill
                   preload
                   placeholder="blur"

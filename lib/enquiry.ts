@@ -54,7 +54,7 @@ export const vehicleCategories = [
     label: "Executive MPV",
     passengers: "Up to 7 passengers",
     luggage: "Up to 6 standard suitcases",
-    examples: "Mercedes-Benz V-Class, Ford Tourneo, Volkswagen Multivan or a comparable vehicle.",
+    examples: "Ford Tourneo Custom or a comparable vehicle — spacious, reliable and ideal for families travelling with luggage.",
   },
   {
     value: "recommend",

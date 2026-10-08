@@ -17,7 +17,7 @@
 
 export const site = {
   name: "Exotic Travel",
-  tagline: "Premium Chauffeur & Airport Transfers",
+  tagline: "Luxury Airport Transfers & Chauffeur Services",
   serviceArea: "London & Nationwide",
 
   /**
@@ -90,7 +90,9 @@ export type NavItem = NavLinkItem & { menu?: NavMenu };
 
 /**
  * Primary navigation — the seven items the client specified (§3), two of
- * them now carrying a dropdown.
+ * them now carrying a dropdown. Airport Transfers sits first after Home
+ * rather than in §3's third place: the client has since made airport
+ * transfers the speciality (§16), and the nav should say so too.
  *
  * The dropdowns exist because nine pages had no route into them from the
  * header at all: the five airports and the four occasion pages were
@@ -106,6 +108,17 @@ export type NavItem = NavLinkItem & { menu?: NavMenu };
 export const primaryNav: readonly NavItem[] = [
   { label: "Home", href: "/" },
   {
+    label: "Airport Transfers",
+    href: "/airport-transfers",
+    menu: {
+      overview: {
+        label: "All London Airports",
+        note: "Met inside arrivals, flights tracked",
+      },
+      links: airports,
+    },
+  },
+  {
     label: "Executive Chauffeur",
     href: "/chauffeur-services",
     menu: {
@@ -119,17 +132,6 @@ export const primaryNav: readonly NavItem[] = [
         { label: "Proms", href: "/services/proms" },
         { label: "Long Distance", href: "/services/long-distance" },
       ],
-    },
-  },
-  {
-    label: "Airport Transfers",
-    href: "/airport-transfers",
-    menu: {
-      overview: {
-        label: "All London Airports",
-        note: "Met inside arrivals, flights tracked",
-      },
-      links: airports,
     },
   },
   { label: "Corporate Travel", href: "/corporate-travel" },

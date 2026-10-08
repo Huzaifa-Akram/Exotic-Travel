@@ -94,7 +94,7 @@ export const faqGroups: FaqGroup[] = [
     entries: [
       {
         q: "Which car will actually arrive?",
-        a: "You book a vehicle category rather than a specific model — an Executive Saloon such as a Mercedes S-Class or similar, or an Executive MPV such as a Mercedes V-Class or similar. We always provide a car that meets or exceeds the chosen category, subject to availability.",
+        a: "You book a vehicle category rather than a specific model — an Executive Saloon such as a Mercedes S-Class or similar, or an Executive MPV such as a Ford Tourneo Custom or similar. We always provide a car that meets or exceeds the chosen category, subject to availability.",
         featured: true,
       },
       {

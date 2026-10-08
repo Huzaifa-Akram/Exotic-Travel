@@ -109,7 +109,7 @@ export function Hero({
       <div className="hero-copy container-x relative mt-[-55.8vw] flex min-h-[55.8vw] flex-1 flex-col items-center pt-9 pb-10 text-center md:mt-0 md:min-h-0 md:pt-28 xl:pt-32">
         <p className="eyebrow rise flex items-center gap-4">
           <span className="h-px w-8 bg-gold sm:w-12" />
-          {eyebrow || `Executive Chauffeur — ${site.serviceArea}`}
+          {eyebrow || "London Airport Specialists — Available 24/7"}
           <span className="h-px w-8 bg-gold sm:w-12" />
         </p>
 
@@ -128,11 +128,12 @@ export function Hero({
           )}
         </h1>
 
-        {/* The old headline, kept as the subheading at the client's
-            request. It still does real work down here — the H1 states
-            the category, this states the standard. */}
+        {/* Airport-led, as the client asked (§16): transfers are the
+            speciality, so the first sentence under the H1 says so and
+            names the three things an airport traveller is checking for.
+            The H1 states the category, this states the standard. */}
         <p className="text-muted rise mt-6 max-w-2xl text-base text-pretty md:mt-7 md:text-lg [--rise-delay:180ms]">
-          {subtitle || "Professional chauffeur-driven travel across London and nationwide, with fixed quotations, flight monitoring and meet-and-greet service."}
+          {subtitle || "Chauffeur-driven transfers to and from every London airport, with live flight monitoring, meet-and-greet inside arrivals and fixed quotations."}
         </p>
 
         {/* The client asked for the three ways of saying yes side by

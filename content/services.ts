@@ -245,7 +245,7 @@ export const servicePages: Service[] = [
       },
       {
         q: "Can the car take a group of friends?",
-        a: "Yes. An Executive MPV such as a Mercedes V-Class or similar carries up to seven, and where a group is larger we run several cars to the same arrival time so everyone steps out together.",
+        a: "Yes. An Executive MPV such as a Ford Tourneo Custom or similar carries up to seven, and where a group is larger we run several cars to the same arrival time so everyone steps out together.",
       },
       {
         q: "Will you wait, or come back at the end?",
@@ -316,7 +316,7 @@ export const servicePages: Service[] = [
     ],
     image: fleet,
     imageAlt:
-      "The Exotic Travel fleet — a Range Rover, Mercedes S-Class and Mercedes V-Class lined up at Heathrow Terminal 3",
+      "The Exotic Travel fleet — a Range Rover, Mercedes S-Class and executive MPV lined up at Heathrow Terminal 3",
     metaDescription:
       "Long distance chauffeur travel across the UK — one car door to door, a fixed price agreed in advance, executive saloons and MPVs, cruise ports and regional airports.",
   },

@@ -24,12 +24,12 @@ export function FinalCta() {
               id="cta-heading"
               className="font-display text-h1 mt-6 font-light text-balance"
             >
-              Wherever next,{" "}
-              <span className="text-metal">consider it arranged.</span>
+              Flying soon?{" "}
+              <span className="text-metal">Consider it arranged.</span>
             </h2>
             <p className="text-muted mt-7 max-w-xl text-lg text-pretty">
-              Send the journey today and travel with a fixed quote, a
-              professional chauffeur and nothing to pay online.
+              Send your flight details today — we track it, your chauffeur
+              is waiting, and the price is fixed with nothing to pay online.
             </p>
           </Reveal>
 

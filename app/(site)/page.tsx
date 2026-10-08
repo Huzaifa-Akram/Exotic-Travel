@@ -12,21 +12,16 @@ import { Faq } from "@/components/home/Faq";
 import { FinalCta } from "@/components/home/FinalCta";
 
 /**
- * Homepage — build order step 3 of CLIENT_BRIEF.md §17, awaiting client
- * sign-off before the remaining pages are built.
+ * Homepage — build order step 3 of CLIENT_BRIEF.md §17.
  *
- * The order is an argument, not a list: name the airports we cover
- * (AirportStrip), show the breadth (Services), sell the flagship hard
- * (AirportTransfers, per §6), show the cars (Fleet), state the six
- * reasons in the client's own words (WhyChoose), defuse the
- * no-instant-price model (HowItWorks), differentiate (Concierge, §9),
- * prove it (Testimonials, Faq), then ask (FinalCta, which completes
- * §2's four CTAs with Call Us and WhatsApp Us).
- *
- * AirportStrip took the slot TrustStrip held. Four of TrustStrip's six
- * badges — flight monitoring, meet & greet, fixed prices, chauffeurs —
- * are now the client's own six in WhyChoose, and saying them twice on
- * one page read as padding rather than emphasis.
+ * The order is an argument, not a list, and it leads with the airport —
+ * the client's stated speciality (§16). Name the airports we cover
+ * (AirportStrip), sell the flagship hard (AirportTransfers, per §6),
+ * show the cars (Fleet), state the six reasons in the client's own
+ * words (WhyChoose), defuse the no-instant-price model (HowItWorks),
+ * and only then show the breadth beyond the airport (Services).
+ * Differentiate (Concierge, §9), prove it (Testimonials, Faq), then ask
+ * (FinalCta, which completes §2's four CTAs with Call Us and WhatsApp Us).
  *
  * Surfaces alternate ink → marble → ink so adjacent sections never
  * share a background; the two photographic full-bleeds (hero,
@@ -38,11 +33,11 @@ export default function HomePage() {
       <Hero />
       <TrustStrip />
       <AirportStrip />
-      <Services />
       <AirportTransfers />
       <Fleet />
       <WhyChoose />
       <HowItWorks />
+      <Services />
       <Concierge />
       <Testimonials />
       <Faq />

@@ -35,11 +35,11 @@ export const metadata: Metadata = {
   // `alternates.canonical` paths and inherit the origin from here.
   metadataBase: new URL(site.url),
   title: {
-    default: "Exotic Travel — Premium Chauffeur & Airport Transfers",
+    default: "Exotic Travel — Luxury Airport Transfers & Chauffeur Services",
     template: "%s | Exotic Travel",
   },
   description:
-    "Executive chauffeur service and airport transfers. Meet & greet, live flight monitoring, and professional chauffeurs. Request a bespoke quotation.",
+    "Luxury airport transfers to and from Heathrow, Gatwick, Stansted, Luton and London City — meet & greet inside arrivals, live flight monitoring and fixed quotes, 24/7.",
 };
 
 export default function RootLayout({

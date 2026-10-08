@@ -27,7 +27,8 @@ making customers feel they are booking a safe, reliable, high-end service.
 - VIP Travel
 - Long Distance Travel
 
-**Full list of chauffeur requirements catered for** (make clear we are NOT airport-only):
+**Full list of chauffeur requirements catered for** (make clear we are NOT airport-only —
+but airport transfers lead; see §16):
 - Airport Transfers
 - Corporate Travel
 - Business Meetings
@@ -123,12 +124,13 @@ so we are never locked into one exact model.
 ### Executive MPV
 - Up to 7 passengers
 - Up to 6 suitcases
-- Example vehicles: Mercedes V-Class, Ford Tourneo Custom, Volkswagen Multivan — or an equivalent premium MPV.
+- Example vehicle: **Ford Tourneo Custom** — or an equivalent premium MPV. Pitch it as spacious
+  and reliable, ideal for big families (client, Oct 2026 — replaces the Mercedes V-Class).
 
 ### Vehicle tiers referenced elsewhere (use "or similar" wording)
 - **Premium saloon vehicles** such as Mercedes E-Class, BMW 5 Series or similar.
 - **Executive vehicles** such as Mercedes S-Class, BMW 7 Series or similar.
-- **Large vehicles** such as Mercedes V-Class, Ford Tourneo or similar.
+- **Large vehicles** such as Ford Tourneo Custom or similar. (Mercedes V-Class dropped, Oct 2026.)
 
 ---
 
@@ -279,7 +281,8 @@ black + gold art direction (black Mercedes fleet, suited chauffeur, luxury Londo
 | `image-3.jpg` | Black S 580 outside **Claridge's**, chauffeur at door, dusk | Chauffeur Services / VIP |
 | `image-4.jpg` | Black Mercedes V-Class at **Heathrow Terminal 2** drop-off, chauffeur at sliding door | Airport Transfers / Executive MPV |
 | `image-5.jpg` | Black S-Class outside **The Dorchester**, chauffeur holding door open | Corporate Travel / Concierge |
-| `image-6.jpg` | Fleet line-up (Range Rover, S-Class, V-Class) at **Heathrow Terminal 3**, wet tarmac | Fleet / vehicle category section |
+| `image-6.jpg` | Fleet line-up (Range Rover, S-Class, V-Class) at **Heathrow Terminal 3**, wet tarmac | Fleet / vehicle category section — **still shows a V-Class; replace with a line-up featuring the Ford** |
+| `ford.jpeg` | Black **Ford Tourneo Custom** at **Heathrow Terminal 5** at night, chauffeur helping a family with luggage (2048×2048) | Airport Transfers / Executive MPV — **replaced `image-4.jpg`** (Oct 2026) |
 
 **Note:** these are AI-generated. A couple contain minor text artifacts in the rendered
 badge/plate (e.g. "TRAVEÉ" misspelling in `image-2` / `image-3`). Prefer crops that avoid
@@ -299,6 +302,12 @@ the plate area, or ask the client for clean replacements before launch.
 - **Imagery:** supplied — 6 images in `public/` (see above).
 - **Brand colours:** black / gold / white (see section 14).
 - **24/7 airport transfers:** confirmed — safe to advertise.
+- **Airport transfers are the speciality** (client, Oct 2026: "I want to focus more on airport
+  transfers"). The homepage leads with the airport story, other services follow under
+  "Beyond the Airport", and Airport Transfers is first in the nav after Home. The other
+  services in §1 are still offered and still have their pages.
+- **Executive MPV = Ford Tourneo Custom** (client, Oct 2026), replacing the Mercedes V-Class
+  everywhere; photo is `public/ford.jpeg`. See §5.
 - **Phone / WhatsApp:** `+44 7470 200517` — one number for both (client, 26 Jul 2026).
   Lives in `lib/site.ts`; header, footer and quote page all read it from there.
 - **Address:** **not to be published.** The client has an address

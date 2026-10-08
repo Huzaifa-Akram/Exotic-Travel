@@ -1,5 +1,5 @@
 import type { StaticImageData } from "next/image";
-import heathrowImage from "@/public/image-4.jpg";
+import heathrowImage from "@/public/ford.jpeg";
 import gatwickImage from "@/public/image-1.png";
 import lutonImage from "@/public/image-3.jpg";
 import stanstedImage from "@/public/image-5.jpg";
@@ -22,7 +22,7 @@ import stanstedLogo from "@/public/airport-logo/Stansted.png";
  *
  * Facts (distances, journey times) are deliberately approximate and
  * phrased as such — traffic owns the truth, and a page that promises
- * "45 minutes" is a complaint waiting to happen. Only image-4 and the
+ * "45 minutes" is a complaint waiting to happen. Only ford.jpeg and the
  * fleet shot actually depict Heathrow; the other pages wear the hotel
  * photography, whose alt text describes what is really in frame.
  */
@@ -96,7 +96,7 @@ export const airportPages: Airport[] = [
     logo: heathrowLogo,
     logoSize: "h-11 md:h-13",
     imageAlt:
-      "A chauffeur waiting with a black Mercedes V-Class at the Heathrow Terminal 2 drop-off",
+      "A chauffeur helping a family into a black Ford Tourneo Custom outside Heathrow Terminal 5 at night",
     metaDescription:
       "Executive chauffeur transfers to and from all Heathrow terminals. Meet & greet inside arrivals, live flight tracking and fixed bespoke quotes — 24/7.",
     faqs: [
@@ -294,7 +294,7 @@ export const airportPages: Airport[] = [
     logo: farnboroughLogo,
     logoSize: "h-8 md:h-10",
     imageAlt:
-      "The Exotic Travel fleet — a Range Rover, Mercedes S-Class and Mercedes V-Class lined up on wet airport tarmac",
+      "The Exotic Travel fleet — a Range Rover, Mercedes S-Class and executive MPV lined up on wet airport tarmac",
     metaDescription:
       "Chauffeur-driven Farnborough Airport transfers for private and business aviation. A car timed to your aircraft, discreet professional chauffeurs and fixed bespoke quotes.",
     faqs: [

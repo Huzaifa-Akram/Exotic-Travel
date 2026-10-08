@@ -191,7 +191,7 @@ export default function StyleguidePage() {
             {
               t: "Executive MPV",
               p: "Up to 7 passengers · 6 suitcases",
-              v: "Mercedes V-Class, Ford Tourneo, VW Multivan or similar",
+              v: "Ford Tourneo Custom or similar",
             },
           ].map((c) => (
             <article key={c.t} className="card card-interactive p-8">
@@ -268,7 +268,7 @@ export default function StyleguidePage() {
       <Section n="09" title="Imagery" intro="Executive fleet at London landmarks and airports.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* image-1 is the one .png in the set — see §15 of the brief */}
-          {["image-1.png", "image-2.jpg", "image-3.jpg", "image-4.jpg", "image-5.jpg", "image-6.jpg"].map((file, idx) => (
+          {["image-1.png", "image-2.jpg", "image-3.jpg", "ford.jpeg", "image-5.jpg", "image-6.jpg"].map((file, idx) => (
             <figure
               key={file}
               className="relative aspect-[3/2] overflow-hidden rounded-md border border-white/10"

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import heathrow from "@/public/image-4.jpg";
+import heathrow from "@/public/ford.jpeg";
 import { airports } from "@/lib/site";
 import { Reveal } from "@/components/ui/Reveal";
 import {
@@ -11,9 +11,10 @@ import {
 } from "@/components/home/icons";
 
 /**
- * The airport service, given the biggest block on the page — §6 of the
- * brief names it the thing to "highlight strongly", and every claim
- * below is drawn from that list. Left-aligned where the other sections
+ * The airport service — the client's speciality (§16), so it is the
+ * first full section after the airport strip and the biggest block on
+ * the page. §6 of the brief names it the thing to "highlight strongly",
+ * and every claim below is drawn from that list. Left-aligned where the other sections
  * centre: a split layout earns the photograph a full column instead of
  * a card crop, and the change of rhythm marks this as the flagship.
  */
@@ -31,8 +32,8 @@ const features = [
   },
   {
     icon: LuggageIcon,
-    title: "Luggage, handled",
-    text: "Help from the carousel to a pre-cooled car, with clear pick-up instructions sent before you land.",
+    title: "Families & luggage, handled",
+    text: "Help with every case from the carousel to the car, room for the whole family, and clear pick-up instructions sent before you land.",
   },
   {
     icon: ClockIcon,
@@ -52,7 +53,7 @@ export function AirportTransfers() {
           {/* ---------------- Copy ---------------- */}
           <div>
             <Reveal>
-              <p className="eyebrow">Airport Transfers</p>
+              <p className="eyebrow">Airport Transfers — Our Speciality</p>
               <h2
                 id="airports-heading"
                 className="font-display text-h2 mt-5 font-light text-balance"
@@ -61,6 +62,12 @@ export function AirportTransfers() {
                 <span className="text-metal">inside arrivals</span>
               </h2>
               <div className="rule-gold mt-7" />
+              <p className="text-muted mt-7 text-lg text-pretty">
+                Airport transfers are what we do most, and what we do best —
+                every London airport, every terminal, every hour of the day,
+                whether you are travelling alone on business or bringing the
+                whole family home.
+              </p>
             </Reveal>
 
             <ul className="mt-10 space-y-8">
@@ -100,7 +107,7 @@ export function AirportTransfers() {
             <div className="grain relative aspect-4/3 overflow-hidden rounded-md border border-white/10">
               <Image
                 src={heathrow}
-                alt="A chauffeur waiting with a black Mercedes V-Class at the Heathrow Terminal 2 drop-off"
+                alt="A chauffeur helping a family into a black Ford Tourneo Custom outside Heathrow Terminal 5 at night"
                 fill
                 placeholder="blur"
                 sizes="(max-width: 1024px) 100vw, 50vw"
